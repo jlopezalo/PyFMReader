@@ -6,16 +6,16 @@ def getstring(line):
 
 def getfloat(line):
     _, nf = line.strip('\r\n').split(': ', 1)
-    return float(re.findall(r'([0-9][.][0-9]+|[0-9]+)', nf)[0])
+    return float(re.findall(r'[-+]?\d*\.\d+|\d+', nf)[0])
 
 def getint(line):
-    _, nf = line.strip('\r\n').split(': ', 1)
-    return int(re.findall(r'([0-9][.][0-9]+|[0-9]+)', nf)[0])
+    return int(getfloat(line))
 
 def parseNANOSCheader(filepath):
     header = {}
     position = None
     data_offset_found_flag = False
+    zscan_sens_nmbyV_found_flag = False
     header["file_path"] = filepath
     header["file_name"] = os.path.basename(filepath)
     header["file_size_bytes"] = os.path.getsize(filepath)
@@ -29,7 +29,7 @@ def parseNANOSCheader(filepath):
             # End of header flag
             if '\\*File list end' in line:
                 break
-            
+
             # Header positions
             elif '*Ciao scan list' in line:
                 position = 'ScanList'
@@ -41,8 +41,9 @@ def parseNANOSCheader(filepath):
                 position = 'ImageList'
             elif '\\Version:' in line:
                 header['version'] = getstring(line)
-            elif '\\@Sens. Zsens:' in line or '\\@Sens. Zscan:' in line:
+            elif '\\@Sens. Zsens:' in line or '\\@Sens. Zscan:' in line and not zscan_sens_nmbyV_found_flag:
                 header['zscan_sens_nmbyV'] = getfloat(line)
+                zscan_sens_nmbyV_found_flag = True
             elif '\\Microscope:' in line:
                 header['instru'] = getstring(line)
             elif '\\Scanner file:' in line:

@@ -11,5 +11,3 @@ offset_default = 0
 boolean_default = False
 num_segments_default = 2
 scaling_factor = 1e9 # nanometers --> meters
-
-# Custom exceptions

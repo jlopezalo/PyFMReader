@@ -9,6 +9,7 @@ from jpk.loadjpkcurve import loadJPKcurve
 from jpk.loadjpkimg import loadJPKimg
 from nanosc.loadnanosccurve import loadNANOSCcurve
 from nanosc.loadnanoscimg import loadNANOSCimg
+from load_uff import loadUFFcurve
 
 class UFF:
     def __init__(self):
@@ -29,6 +30,8 @@ class UFF:
             )
         elif file_type in nanoscfiles:
             FC = loadNANOSCcurve(curveidx, self.filemetadata)
+        elif file_type in ufffiles:
+            FC = loadUFFcurve(self.filemetadata)
         return FC
 
     def getcurve(self, curveidx):
@@ -39,6 +42,8 @@ class UFF:
                 FC = self._loadcurve(curveidx, afmfile, file_type)
         elif file_type in nanoscfiles:
             FC = self._loadcurve(curveidx, None, file_type)
+        elif file_type in ufffiles:
+            FC = self._loadcurve(None, None, file_type)
         return FC
     
     def getpiezoimg(self):
