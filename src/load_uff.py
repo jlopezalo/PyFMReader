@@ -26,10 +26,23 @@ def loadUFFcurve(header):
     for segid in range(int(header['Recording_number_segment'])):
         segtype = header[f'Recording_segment_{segid}_type']
         segcode = header[f'Recording_segment_{segid}_code']
-        ncols = int(header[f'Recording_segment_{segid}_nb_col'])
+        fsetpointmode = header[f'Recording_segment_{segid}_force_setpoint_mode']
         npoints = int(header[f'Recording_segment_{segid}_nb_point'])
+        ncols = int(header[f'Recording_segment_{segid}_nb_col'])
+        samprate = header[f'Recording_segment_{segid}_sampling_rate(Hz)']
+        vel = header[f'Recording_segment_{segid}_velocity(m/s)']
+        fsetpoint = header[f'Recording_segment_{segid}_force_setpoint(N)']
+        zdispl = header[f'Recording_segment_{segid}_z_displacement(m)']
+
         segdata = np.zeros((npoints, ncols))
         segment = Segment(filename, segid, segtype)
+        segment.nb_point = npoints
+        segment.force_setpoint_mode = fsetpointmode
+        segment.nb_col = ncols
+        segment.force_setpoint = fsetpoint
+        segment.velocity = vel
+        segment.sampling_rate = samprate
+        segment.z_displacement = zdispl
         with open(uffpath, 'r') as file:
             i = 0
             for line in file.readlines():
@@ -43,10 +56,10 @@ def loadUFFcurve(header):
                 segment.segment_formated_data = {colkey:segdata[:, colidx]}
             else:
                 segment.segment_formated_data.update({colkey:segdata[:, colidx]})
-        if segtype == 'Approach': fdc.extend_segments.append(segment)
-        elif segtype == 'Retract': fdc.retract_segments.append(segment)
-        elif segtype == 'Pause': fdc.pause_segments.append(segment)
-        elif segtype == 'Modulation': fdc.modulation_segments.append(segment)
+        if segtype == 'Approach': fdc.extend_segments.append((segid, segment))
+        elif segtype == 'Retract': fdc.retract_segments.append((segid, segment))
+        elif segtype == 'Pause': fdc.pause_segments.append((segid, segment))
+        elif segtype == 'Modulation': fdc.modulation_segments.append((segid, segment))
     return fdc
 
 def loadUFFtxt(uffpath, UFF):

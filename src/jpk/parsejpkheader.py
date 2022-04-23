@@ -8,9 +8,11 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     file_metadata = {}
 
     file_metadata["file_path"] = filepath
-    file_metadata["file_name"] = os.path.basename(filepath)
+    file_metadata["Entry_filename"] = os.path.basename(filepath)
     file_metadata["file_size_bytes"] = os.path.getsize(filepath)
     file_metadata["file_type"] = os.path.splitext(filepath)[-1]
+    file_metadata['UFF_code'] = UFF_code
+    file_metadata['Entry_UFF_version'] = UFF_version
  
     file_id = re.search(r'(\d{2}.\d{2}.\d{2}.\d{3})', filepath)
     if file_id:
@@ -22,19 +24,22 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     if file_metadata["file_type"] == ".jpk-force-map":
         prefix = "force-scan-map"
         pre_header = ".settings"
+        file_metadata['force_volume'] = 1
     elif file_metadata["file_type"] == ".jpk-qi-data":
         prefix = "quantitative-imaging-map"
+        file_metadata['force_volume'] = 1
         pre_header = ".settings"
     elif file_metadata["file_type"] == ".jpk-force":
         prefix = "force-scan-series"
         pre_header = ".header"
+        file_metadata['force_volume'] = 0
     
     file_metadata["Experimental_instrument"] = header_properties.get(prefix + ".description.instrument")
     file_metadata["JPK_file_format_version"] = header_properties.get("file-format-version")
     file_metadata["JPK_software_version"] = header_properties.get(prefix + ".description.source-software")
     file_metadata["retracted_delay"] = float(header_properties.get(prefix + ".settings.force-settings.retracted-pause-time", default_delay))
     file_metadata["extended_delay"] = float(header_properties.get(prefix + ".settings.force-settings.extended-pause-time", default_delay))
-    file_metadata["file_date"] = header_properties.get(prefix + ".start-time")
+    file_metadata["Entry_date"] = header_properties.get(prefix + ".start-time")
     
     file_metadata["scan_angle"] = float(header_properties.get(prefix + ".position-pattern.grid.theta", default_angle))
 
@@ -45,10 +50,10 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     file_metadata["scan_size_y"] = float(header_properties.get(prefix + ".position-pattern.grid.vlength", offset_default)) * scaling_factor
     
     file_metadata["z_closed_loop_status"] = header_properties.get(prefix + ".settings.force-settings.closed-loop", boolean_default)
-    if file_metadata["z_closed_loop_status"] == "true": file_metadata["z_closed_loop_status"] = "On"
-    elif file_metadata["z_closed_loop_status"] == "false": file_metadata["z_closed_loop_status"] = "Off"
+    if file_metadata["z_closed_loop_status"] == "true": file_metadata["Recording_Z_close_loop_on"] = "On"
+    elif file_metadata["z_closed_loop_status"] == "false": file_metadata["Recording_Z_close_loop_on"] = "Off"
 
-    file_metadata["real_num_pixels"] = int(header_properties.get(prefix + ".indexes.max", offset_default))
+    file_metadata["Entry_tot_nb_curve"] = int(header_properties.get(prefix + ".indexes.max", offset_default))
     file_metadata["extend_pause_duration"] = float(header_properties.get(prefix + ".settings.force-settings.extended-pause-time", offset_default))
 
     if file_metadata["file_type"] in (".jpk-force"):
@@ -155,9 +160,9 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     
     # Get number of segments saved
     if file_metadata["file_type"] == ".jpk-force":
-        file_metadata["nbr_segments"] = int(header_properties.get(f"force-scan-series.force-segments.count", num_segments_default))
+        file_metadata["Recording_number_segment"] = int(header_properties.get(f"force-scan-series.force-segments.count", num_segments_default))
     else:
-        file_metadata["nbr_segments"] = int(shared_data_properties.get(f"force-segment-header-infos.count", num_segments_default))
+        file_metadata["Recording_number_segment"] = int(shared_data_properties.get(f"force-segment-header-infos.count", num_segments_default))
 
     # Create empty key for holding segment properties
     file_metadata["curve_properties"] = {}

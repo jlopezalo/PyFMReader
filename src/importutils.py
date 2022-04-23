@@ -5,6 +5,14 @@ class Segment:
         self.file_id = file_id
         self.segment_id = segment_id
         self.segment_type = segment_type
+        self.description = None
+        self.nb_point = None
+        self.force_setpoint_mode = None
+        self.nb_col = None
+        self.force_setpoint = None
+        self.velocity = None
+        self.sampling_rate = None
+        self.z_displacement = None
         self.segment_metadata = None
         self.segment_raw_data = None
         self.segment_formated_data = None
@@ -14,6 +22,11 @@ class Segment:
         self.time = None
         self.indentation = None
         self.force = None
+
+        if self.segment_type == 'Approach': self.segment_code = 'AP'
+        elif self.segment_type == 'Retract': self.segment_code = 'RE'
+        elif self.segment_type == 'Pause': self.segment_code = 'PA'
+        elif self.segment_type == 'Modulation': self.segment_code = 'MO'
     
     def preprocess_segment(self, deflection_sens, height_channel_key, y0=None):
         deflection_v = self.segment_formated_data["vDeflection"]

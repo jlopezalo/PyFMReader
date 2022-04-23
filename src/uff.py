@@ -1,7 +1,3 @@
-from math import nan
-import zipfile
-import numpy as np
-
 from fasterzip import ZipFile
 
 from constants import *
@@ -10,6 +6,7 @@ from jpk.loadjpkimg import loadJPKimg
 from nanosc.loadnanosccurve import loadNANOSCcurve
 from nanosc.loadnanoscimg import loadNANOSCimg
 from load_uff import loadUFFcurve
+from save_uff import saveUFFtxt
 
 class UFF:
     def __init__(self):
@@ -19,6 +16,7 @@ class UFF:
         self._groupedpaths=None
         # FV Specific Atribtues
         self.isFV=None
+        self.ncurves=None
         self.piezoimg=None
         self.qualitymap=None
     
@@ -26,7 +24,7 @@ class UFF:
         if file_type in jpkfiles:
             curvepaths = self._groupedpaths[curveidx]
             FC = loadJPKcurve(
-                curvepaths, afmfile, curveidx, self.filemetadata, self._sharedataprops
+                curvepaths, afmfile, curveidx, self.filemetadata
             )
         elif file_type in nanoscfiles:
             FC = loadNANOSCcurve(curveidx, self.filemetadata)
@@ -52,4 +50,11 @@ class UFF:
             return loadJPKimg(self)
         elif file_type in nanoscfiles:
             return loadNANOSCimg(self.filemetadata)
-
+    
+    def to_txt(self, savedir):
+        if self.isFV:
+            for curveidx in range(self.filemetadata['Entry_tot_nb_curve']):
+                saveUFFtxt(self, self, savedir, curveidx)
+        else:
+            saveUFFtxt(self, self, savedir)
+        

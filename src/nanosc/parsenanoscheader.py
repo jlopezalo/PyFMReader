@@ -1,5 +1,6 @@
 import os
 import re
+from constants import UFF_code, UFF_version
 
 def getstring(line):
     return line.strip('\r\n').split(': ')[1]
@@ -17,9 +18,11 @@ def parseNANOSCheader(filepath):
     data_offset_found_flag = False
     zscan_sens_nmbyV_found_flag = False
     header["file_path"] = filepath
-    header["file_name"] = os.path.basename(filepath)
+    header["Entry_filename"] = os.path.basename(filepath)
     header["file_size_bytes"] = os.path.getsize(filepath)
     header["file_type"] = os.path.splitext(filepath)[-1]
+    header['UFF_code'] = UFF_code
+    header['Entry_UFF_version'] = UFF_version
     
     with open(filepath, 'rb') as afmfile:
         headerlines = afmfile.readlines()
@@ -154,9 +157,9 @@ def parseNANOSCheader(filepath):
         
         # Compute parameters not stored in header
         if header['force_volume'] == 1:
-            header['tot_nb_FDC'] = header['FV_nb_sampsline'] * header['FV_nb_lines']
+            header['Entry_tot_nb_curve'] = header['FV_nb_sampsline'] * header['FV_nb_lines']
         else:
-            header['tot_nb_FDC'] = 1
+            header['Entry_tot_nb_curve'] = 1
         header['ramp_size_nm'] = header['ramp_size_V'] * header['zscan_sens_nmbyV']
         header['speed_forward_nmbys'] = header['speed_forward_Vbys'] * header['zscan_sens_nmbyV']
         header['speed_reverse_nmbys'] = header['speed_reverse_Vbys'] * header['zscan_sens_nmbyV']

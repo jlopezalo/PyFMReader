@@ -5,7 +5,7 @@ class TestPyafmreader(unittest.TestCase):
 
     def setUp(self):
         # Declare paths to test files
-        JPK_SINGLE_CURVE_PATH = None
+        JPK_SINGLE_CURVE_PATH = 'tests/testfiles/force-save-2020.12.04-14.39.51.983.jpk-force'
         JPK_FV_PATH = None
         JPK_QI_PATH = None
         NANOSC_SINGLE_CURVE_PATH = 'tests/testfiles/20200904_Egel4-Z1.0_00025.spm'
@@ -21,7 +21,7 @@ class TestPyafmreader(unittest.TestCase):
         self.NANOSC_FV_FILE = loadfile(NANOSC_FV_PATH)
         self.NANOSC_PFC_FILE = loadfile(NANOSC_PFC_PATH)
         # UFF files
-        self.UFF_FILE = None
+        self.UFF_FILE = loadfile(UFF_PATH)
 
     def test_load_NANOSC_single_curve_header(self):
         metadata = self.NANOSC_SINGLE_CURVE_FILE.filemetadata

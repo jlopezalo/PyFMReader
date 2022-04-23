@@ -1,14 +1,15 @@
 import numpy as np
 from struct import unpack
 from importutils import ForceCurve, Segment
+from constants import NANOSC_NB_COLS
 
 def loadNANOSCcurve(idx, header):
-    file_name = header['file_name']
+    file_name = header['Entry_filename']
     filepath = header['file_path']
     force_curve = ForceCurve(idx, file_name)
     # Only simple curves with trace/retrace are supported
-    appsegment = Segment(file_name, '0', 'extend')
-    retsegment = Segment(file_name, '1', 'retract')
+    appsegment = Segment(file_name, '0', 'Approach')
+    retsegment = Segment(file_name, '1', 'Retract')
     with open(filepath, 'rb') as afmfile:
         # Get variables needed for loading data from header
         isFV = bool(header['force_volume'])
@@ -27,10 +28,10 @@ def loadNANOSCcurve(idx, header):
         QNM_sync_dist = header['QNM_sync_dist']
 
         app_x =  np.arange(nb_point_approach) * zstep_approach_nm
-        ret_x =  np.arange(nb_point_approach) * zstep_retract_nm
+        ret_x =  np.arange(nb_point_retract) * zstep_retract_nm
 
         tempapp = np.zeros((nb_point_approach))
-        tempret = np.zeros((nb_point_approach))
+        tempret = np.zeros((nb_point_retract))
 
         if isFV:
             FDC_bytes = FDC_data_length // (2 * nb_point_approach * FDC_nb_sampsline ** 2)
@@ -98,5 +99,24 @@ def loadNANOSCcurve(idx, header):
             'height': ret_x, 
             'vDeflection': ret_defl_V
         }
+
+        appsegment.nb_point = nb_point_approach
+        appsegment.force_setpoint_mode = header['trigger_mode']
+        appsegment.nb_col = NANOSC_NB_COLS
+        appsegment.force_setpoint = 0
+        appsegment.velocity = header['speed_forward_nmbys']
+        appsegment.sampling_rate = header['scan_rate_Hz']
+        appsegment.z_displacement = header['ramp_size_nm']
+
+        retsegment.nb_point = nb_point_retract
+        retsegment.force_setpoint_mode = header['FDC_data_length']
+        retsegment.nb_col = NANOSC_NB_COLS
+        retsegment.force_setpoint = 0
+        retsegment.velocity = header['speed_forward_nmbys']
+        retsegment.sampling_rate = header['scan_rate_Hz']
+        retsegment.z_displacement = header['ramp_size_nm']
+
+        force_curve.extend_segments.append((0, appsegment))
+        force_curve.retract_segments.append((1, retsegment))
 
         return force_curve

@@ -38,13 +38,16 @@ def loadJPKfile(filepath, UFF, filesuffix):
 
         curve_properties = {}
 
-        index = 1 if UFF.filemetadata["real_num_pixels"] == 0 else 3
+        index = 1 if UFF.filemetadata["Entry_tot_nb_curve"] == 0 else 3
 
         keyf = lambda text: text.split("/")[index]
         groupded_paths = [list(items) for _, items in groupby(sorted(paths), key=keyf)][1:]
 
         for segment_group in groupded_paths:
-            curve_id = segment_group[0].split("/")[1]
+            if index == 3:
+                curve_id = segment_group[0].split("/")[1]
+            else:
+                curve_id = '0'
             segment_id = segment_group[0].split("/")[index]
             if not curve_id in curve_properties.keys():
                 curve_properties.update({curve_id:{}})

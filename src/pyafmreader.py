@@ -5,7 +5,7 @@ from nanosc.loadnanoscfile import loadNANOSCfile
 from load_uff import loadUFFtxt
 from uff import UFF
 
-def loadfile(filepath):
+def loadfile(filepath, buffer=None):
     filesuffix = os.path.splitext(filepath)[-1]
 
     uffobj = UFF()

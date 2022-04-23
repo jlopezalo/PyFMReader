@@ -2,17 +2,18 @@ from struct import unpack
 from itertools import groupby
 import numpy as np
 
-from jpk.parsejpkheader import parseJPKsegmentheader
 from importutils import ForceCurve, Segment
 
-def loadJPKcurve(paths, afm_file, curve_index, file_metadata, shared_data_properties):
+from constants import JPK_SETPOINT_MODE
+
+def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
 
     file_id = file_metadata['file_id']
     curve_properties = file_metadata['curve_properties']
 
     force_curve = ForceCurve(curve_index, file_id)
 
-    index = 1 if file_metadata["real_num_pixels"] == 0 else 3
+    index = 1 if file_metadata["Entry_tot_nb_curve"] == 0 else 3
 
     keyf = lambda text: text.split("/")[index]
     groupded_paths = [list(items) for _, items in groupby(sorted(paths), key=keyf)][1:]
@@ -64,7 +65,6 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata, shared_data_proper
 
         else:
             print("[!] No valid vDeflection channel found!")
-
         segment_type = curve_properties[str(curve_index)][segment_id]["style"]
         segment_duration = curve_properties[str(curve_index)][segment_id]["duration"]
         segment_num_points = curve_properties[str(curve_index)][segment_id]["num_points"]
@@ -72,18 +72,31 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata, shared_data_proper
         # TO DO: Time can be exported, handle this situation.
         segment_formated_data["time"] = np.linspace(0, segment_duration, segment_num_points, endpoint=False)
 
+        if segment_type=='extend': segment_type='Approach'
+        elif segment_type == 'pause': segment_type = 'Pause'
+        elif segment_type == 'modulation': segment_type = 'Modulation'
+        elif segment_type=='retract': segment_type='Retract'
+
         segment = Segment(file_id, segment_id, segment_type)
         segment.segment_formated_data = segment_formated_data
         segment.segment_raw_data = segment_raw_data
         segment.segment_metadata = curve_properties[str(curve_index)][segment_id]
+        segment.force_setpoint_mode = JPK_SETPOINT_MODE
+        segment.nb_point = segment_num_points
+        segment.nb_col = len(segment_formated_data.keys())
+        segment.force_setpoint = file_metadata["force_setpoint"]
+        segment.velocity = segment.segment_metadata["ramp_speed"]
+        segment.sampling_rate = segment.nb_point / segment.segment_metadata["duration"]
+        segment.z_displacement = segment.segment_metadata["ramp_size"]
 
-        if segment.segment_type == "extend":
-            force_curve.extend_segments.append((segment.segment_id, segment))
-        elif segment.segment_type == "retract":
-            force_curve.retract_segments.append((segment.segment_id, segment))
-        elif segment.segment_type == "pause":
-            force_curve.pause_segments.append((segment.segment_id, segment))
-        elif segment.segment_type == "modulation":
-            force_curve.modulation_segments.append((segment.segment_id, segment))
+
+        if segment.segment_type == "Approach":
+            force_curve.extend_segments.append((int(segment.segment_id), segment))
+        elif segment.segment_type == "Retract":
+            force_curve.retract_segments.append((int(segment.segment_id), segment))
+        elif segment.segment_type == "Pause":
+            force_curve.pause_segments.append((int(segment.segment_id), segment))
+        elif segment.segment_type == "Modulation":
+            force_curve.modulation_segments.append((int(segment.segment_id), segment))
 
     return force_curve
