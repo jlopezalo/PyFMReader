@@ -19,7 +19,7 @@ debugpy==1.6.0
 decorator==5.1.1
 defusedxml==0.7.1
 entrypoints==0.4
--e git+https://github.com/TkTech/fasterzip.git
+-e git+https://github.com/TkTech/fasterzip.git#egg=fasterzip
 fastjsonschema==2.15.3
 fonttools==4.32.0
 gitdb==4.0.9
