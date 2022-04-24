@@ -71,6 +71,7 @@ def loadNANOSCcurve(idx, header):
             ret_x = curve_x[(max_force_index):(max_force_index + f_samples)]
             tempret = curve_pft[(max_force_index):(max_force_index + f_samples)]
 
+
         app_defl_V = defl_sens_Vbybyte * tempapp
         ret_defl_V = defl_sens_Vbybyte * tempret
 
@@ -100,7 +101,7 @@ def loadNANOSCcurve(idx, header):
             'vDeflection': ret_defl_V
         }
 
-        appsegment.nb_point = nb_point_approach
+        appsegment.nb_point = len(app_x)
         appsegment.force_setpoint_mode = header['trigger_mode']
         appsegment.nb_col = NANOSC_NB_COLS
         appsegment.force_setpoint = 0
@@ -108,7 +109,7 @@ def loadNANOSCcurve(idx, header):
         appsegment.sampling_rate = header['scan_rate_Hz']
         appsegment.z_displacement = header['ramp_size_nm']
 
-        retsegment.nb_point = nb_point_retract
+        retsegment.nb_point = len(ret_x)
         retsegment.force_setpoint_mode = header['FDC_data_length']
         retsegment.nb_col = NANOSC_NB_COLS
         retsegment.force_setpoint = 0
