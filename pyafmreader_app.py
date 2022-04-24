@@ -22,9 +22,10 @@ st.write(
 
 datapath = st.text_input("Enter a file or directory path:")
 
-savedir = st.text_input("Output directory path:")    
+savedir = st.text_input("Output directory path:")
 
-if os.path.isdir(savedir):
-    readfiles(Path(datapath), savedir)
-else:
-    raise NotADirectoryError
+if st.button('Convert Files'):
+    if os.path.isdir(savedir):
+        readfiles(Path(datapath), savedir)
+    else:
+        raise NotADirectoryError
