@@ -10,5 +10,5 @@ setup(
     long_description=long_description,
     long_description_content_type = "text/markdown",
     packages=find_packages(),
-    url="https://github.com/jlopezalo/pyafmreader",
+    url="https://github.com/jlopezalo/pyafmreader"
 )
