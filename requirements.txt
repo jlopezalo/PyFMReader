@@ -61,7 +61,7 @@ prompt-toolkit==3.0.29
 protobuf==3.20.1
 psutil==5.9.0
 ptyprocess==0.7.0
-pyafmreader @ git+https://github.com/jlopezalo/pyafmreader@eb246869ceb9453399f3db390a2a4b90beb0418e#egg=pyafmreader
+pyafmreader @ git+https://github.com/jlopezalo/pyafmreader@b5436461e8635e402694e0c082e0acb38d3e222b#egg=pyafmreader
 pyarrow==7.0.0
 pycparser==2.21
 pydeck==0.7.1
@@ -79,7 +79,6 @@ Send2Trash==1.8.0
 six==1.16.0
 smmap==5.0.0
 soupsieve==2.3.2.post1
-streamlit==1.8.1
 terminado==0.13.3
 tinycss2==1.1.1
 toml==0.10.2
