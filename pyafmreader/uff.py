@@ -1,12 +1,12 @@
 from fasterzip import ZipFile
 
-from constants import *
-from jpk.loadjpkcurve import loadJPKcurve
-from jpk.loadjpkimg import loadJPKimg
-from nanosc.loadnanosccurve import loadNANOSCcurve
-from nanosc.loadnanoscimg import loadNANOSCimg
-from load_uff import loadUFFcurve
-from save_uff import saveUFFtxt
+from pyafmreader.constants import *
+from pyafmreader.jpk.loadjpkcurve import loadJPKcurve
+from pyafmreader.jpk.loadjpkimg import loadJPKimg
+from pyafmreader.nanosc.loadnanosccurve import loadNANOSCcurve
+from pyafmreader.nanosc.loadnanoscimg import loadNANOSCimg
+from pyafmreader.load_uff import loadUFFcurve
+from pyafmreader.save_uff import saveUFFtxt
 
 class UFF:
     def __init__(self):

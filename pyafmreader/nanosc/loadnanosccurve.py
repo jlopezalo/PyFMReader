@@ -1,7 +1,8 @@
 import numpy as np
 from struct import unpack
-from importutils import ForceCurve, Segment
-from constants import NANOSC_NB_COLS
+
+from pyafmreader.importutils import ForceCurve, Segment
+from pyafmreader.constants import NANOSC_NB_COLS
 
 def loadNANOSCcurve(idx, header):
     file_name = header['Entry_filename']

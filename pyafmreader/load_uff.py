@@ -1,5 +1,5 @@
 import os
-from importutils import ForceCurve, Segment
+from pyafmreader.importutils import ForceCurve, Segment
 import numpy as np
 
 def loadUFFheader(uffpath):

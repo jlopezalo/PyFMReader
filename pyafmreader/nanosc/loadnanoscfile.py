@@ -1,5 +1,5 @@
 
-from nanosc.parsenanoscheader import parseNANOSCheader
+from pyafmreader.nanosc.parsenanoscheader import parseNANOSCheader
 
 def loadNANOSCfile(filepath, UFF):
     UFF.filemetadata = parseNANOSCheader(filepath)

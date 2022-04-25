@@ -1,11 +1,11 @@
 import os
-from constants import *
-from jpk.loadjpkfile import loadJPKfile
-from nanosc.loadnanoscfile import loadNANOSCfile
-from load_uff import loadUFFtxt
-from uff import UFF
+from pyafmreader.constants import *
+from pyafmreader.jpk.loadjpkfile import loadJPKfile
+from pyafmreader.nanosc.loadnanoscfile import loadNANOSCfile
+from pyafmreader.load_uff import loadUFFtxt
+from pyafmreader.uff import UFF
 
-def loadfile(filepath, buffer=None):
+def loadfile(filepath):
     filesuffix = os.path.splitext(filepath)[-1]
 
     uffobj = UFF()

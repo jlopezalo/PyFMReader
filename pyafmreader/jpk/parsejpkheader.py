@@ -1,7 +1,7 @@
 
 import os
 import re
-from constants import *
+from pyafmreader.constants import *
 
 def parseJPKheader(filepath, header_properties, shared_data_properties):
 

@@ -2,9 +2,8 @@ from struct import unpack
 from itertools import groupby
 import numpy as np
 
-from importutils import ForceCurve, Segment
-
-from constants import JPK_SETPOINT_MODE
+from pyafmreader.importutils import ForceCurve, Segment
+from pyafmreader.constants import JPK_SETPOINT_MODE
 
 def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
 

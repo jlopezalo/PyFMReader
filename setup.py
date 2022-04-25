@@ -5,12 +5,10 @@ with open("README.md", "r") as fh:
 
 setup(
     name = "pyafmreader",
-    version= "0.0.1",
+    version= "x.x.x",
     description=None,
-    py_modules=["pyafmreader"],
-    package_dir={'': 'src'},
     long_description=long_description,
     long_description_content_type = "text/markdown",
-    packages=find_packages(),
+    packages=['pyafmreader'],
     url="https://github.com/jlopezalo/pyafmreader",
 )
