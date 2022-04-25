@@ -10,5 +10,8 @@ setup(
     long_description=long_description,
     long_description_content_type = "text/markdown",
     packages=find_packages(),
-    url="https://github.com/jlopezalo/pyafmreader"
+    url="https://github.com/jlopezalo/pyafmreader",
+    install_requires = [
+        'fasterzip @ git+https://github.com/TkTech/fasterzip.git@09e2cae7821f96f4ba8f6d4122e1045352a656b4#egg=fasterzip',
+    ]
 )
