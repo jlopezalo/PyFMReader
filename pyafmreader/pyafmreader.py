@@ -1,7 +1,7 @@
 import os
 from pyafmreader.constants import *
-from pyafmreader.jpk.loadjpkfile import loadJPKfile
-from pyafmreader.nanosc.loadnanoscfile import loadNANOSCfile
+from jpk.loadjpkfile import loadJPKfile
+from nanosc.loadnanoscfile import loadNANOSCfile
 from pyafmreader.load_uff import loadUFFtxt
 from pyafmreader.uff import UFF
 
