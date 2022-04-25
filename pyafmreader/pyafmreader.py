@@ -1,9 +1,9 @@
 import os
-from pyafmreader.constants import *
-from jpk.loadjpkfile import loadJPKfile
-from nanosc.loadnanoscfile import loadNANOSCfile
-from pyafmreader.load_uff import loadUFFtxt
-from pyafmreader.uff import UFF
+from .constants import *
+from .jpk.loadjpkfile import loadJPKfile
+from .nanosc.loadnanoscfile import loadNANOSCfile
+from .load_uff import loadUFFtxt
+from .uff import UFF
 
 def loadfile(filepath):
     filesuffix = os.path.splitext(filepath)[-1]

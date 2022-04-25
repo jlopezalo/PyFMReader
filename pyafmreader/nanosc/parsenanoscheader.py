@@ -1,6 +1,6 @@
 import os
 import re
-from pyafmreader.constants import UFF_code, UFF_version
+from ..constants import UFF_code, UFF_version
 
 def getstring(line):
     return line.strip('\r\n').split(': ')[1]

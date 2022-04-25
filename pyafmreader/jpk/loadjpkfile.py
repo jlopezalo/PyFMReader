@@ -1,7 +1,7 @@
 import os
 from itertools import groupby
 from fasterzip import ZipFile
-from pyafmreader.jpk.parsejpkheader import parseJPKheader, parseJPKsegmentheader
+from .parsejpkheader import parseJPKheader, parseJPKsegmentheader
 
 def loadJPKfile(filepath, UFF, filesuffix):
     with open(filepath, 'rb') as file:
