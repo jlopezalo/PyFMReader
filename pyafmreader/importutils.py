@@ -98,7 +98,11 @@ class Segment:
             deflection_v = deflection_v - y0
         self.vdeflection = deflection_v * deflection_sens
         self.zheight = self.segment_formated_data[height_channel_key]
-        self.time = self.segment_formated_data["time"]
+        if "time" in self.segment_formated_data:
+            self.time = self.segment_formated_data["time"]
+        elif self.sampling_rate is not None:
+            segment_duration = self.nb_point * self.sampling_rate
+            self.time = np.linspace(0, segment_duration, self.nb_point, endpoint=False)
     
     def get_force_vs_indentation_curve(self, poc, spring_constant):
         """
