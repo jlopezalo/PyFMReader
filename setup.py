@@ -1,3 +1,6 @@
+import pip
+pip.main(['install', 'Cython'])
+
 import os
 from setuptools import setup, find_packages
 
