@@ -4,6 +4,17 @@ import re
 from ..constants import *
 
 def parseJPKheader(filepath, header_properties, shared_data_properties):
+    """
+    Function used to load the metadata of a JPK file.
+
+            Parameters:
+                    filepath (str): UFF object containing the JPK file metadata.
+                    header_properties (dict): Dictionary containing metadata from header.properties
+                    shared_data_properties (dict): Dictionary containing metadata from shared-data/header.properties
+            
+            Returns:
+                    file_metadata (dict): Dictionary containing all the file metadata
+    """
 
     file_metadata = {}
 
@@ -170,7 +181,20 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     return file_metadata
 
 def parseJPKsegmentheader(curve_properties, curve_index, file_type, segment_header, shared_data_properties, segment_id):
-    
+    """
+    Function used to load the metadata of each segment for each force curve of a JPK file.
+
+            Parameters:
+                    curve_properties (dict): Dictionary containing all the metadata for each force curve in the file.
+                    curve_index (int): Dictionary containing metadata from header.properties
+                    file_type (str): File extension of JPK file.
+                    segment_header (dict): Dictionary containing metadata from segment-header
+                    shared_data_properties (str): Dictionary containing metadata from shared-data/header.properties
+                    segment_id (str): Position of the segment in the force curve.
+            
+            Returns:
+                    curve_properties (dict): Dictionary containing all the metadata for each force curve in the file.
+    """
     segment_metadata = {}
 
     # Parameters always found in the segment header

@@ -4,6 +4,17 @@ from fasterzip import ZipFile
 from .parsejpkheader import parseJPKheader, parseJPKsegmentheader
 
 def loadJPKfile(filepath, UFF, filesuffix):
+    """
+    Function used to load the metadata of a JPK file.
+
+            Parameters:
+                    filepath (str): Path to the JPK file.
+                    UFF (uff.UFF): UFF object to load the metadata into.
+                    filesuffix (str): JPK file extension.
+            
+            Returns:
+                    UFF (uff.UFF): UFF object containing the loaded metadata.
+    """
     with open(filepath, 'rb') as file:
         afm_file =  ZipFile(file)
 

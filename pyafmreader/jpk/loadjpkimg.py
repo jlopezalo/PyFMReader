@@ -2,7 +2,15 @@ import numpy as np
 from fasterzip import ZipFile
 
 def loadJPKimg(UFF):
-    # Slow for large files! 128X128 --> 17 s
+    """
+    Function used to compute the piezo image of a JPK file.
+
+            Parameters:
+                    UFF (uff.UFF): UFF object containing the JPK file metadata.
+            
+            Returns:
+                    piezoimg (np.array): 2D array containing the piezo image of the JPK file.
+    """
     file_type = UFF.filemetadata['file_type']
     height_channel_key = UFF.filemetadata["height_channel_key"]
     if file_type in (".jpk-force-map", ".jpk-qi-data"):
@@ -22,10 +30,10 @@ def loadJPKimg(UFF):
             #   0  1  2       0  1  2
             #   3  4  5  -->  5  4  3
             #   6  7  8       6  7  8 
-            UFF.piezoimg = np.asarray([row[::(-1)**i] for i, row in enumerate(piezoimg)])
+            piezoimg = np.asarray([row[::(-1)**i] for i, row in enumerate(piezoimg)])
         else:
             # In QI files it is not recessary to flip rows
             # due to how the acquisition mode works.
-            UFF.piezoimg = piezoimg
+            piezoimg = piezoimg
     
-    return UFF.piezoimg
+    return piezoimg

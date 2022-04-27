@@ -1,16 +1,30 @@
+# File containing the function loadNANOSCcurve,
+# used to load the data of force curves from NANOSCOPE files.
+
 import numpy as np
 from struct import unpack
 
 from ..importutils import ForceCurve, Segment
-from ..constants import NANOSC_NB_COLS
 
 def loadNANOSCcurve(idx, header):
+    """
+    Function used to load the data of a single force curve from a JPK file.
+
+            Parameters:
+                    idx (int): Index of the force curve.
+                    header (dict): Dictionary containing all NANOSCOPE file metadata.
+            
+            Returns:
+                    force_curve (importutils.ForceCurve): ForceCurve object containing the loaded data.
+    """
+    
     file_name = header['Entry_filename']
     filepath = header['file_path']
     force_curve = ForceCurve(idx, file_name)
     # Only simple curves with trace/retrace are supported
     appsegment = Segment(file_name, '0', 'Approach')
     retsegment = Segment(file_name, '1', 'Retract')
+    
     with open(filepath, 'rb') as afmfile:
         # Get variables needed for loading data from header
         isFV = bool(header['force_volume'])
@@ -23,7 +37,7 @@ def loadNANOSCcurve(idx, header):
         zstep_approach_nm = header['zstep_approach_nm']
         zstep_retract_nm = header['zstep_retract_nm']
         defl_sens_Vbybyte = header['defl_sens_Vbybyte']
-        PFC_freq = header['PFC_freq'] * 1000
+        PFC_freq = header['PFC_freq'] * 1000 # KHZ --> Hz
         PFC_amp = header['PFC_amp']
         PFC_nb_samppoints = header['PFC_nb_samppoints']
         QNM_sync_dist = header['QNM_sync_dist']
@@ -72,7 +86,6 @@ def loadNANOSCcurve(idx, header):
             ret_x = curve_x[(max_force_index):(max_force_index + f_samples)]
             tempret = curve_pft[(max_force_index):(max_force_index + f_samples)]
 
-
         app_defl_V = defl_sens_Vbybyte * tempapp
         ret_defl_V = defl_sens_Vbybyte * tempret
 
@@ -92,33 +105,33 @@ def loadNANOSCcurve(idx, header):
             app_defl_V = app_defl_V[::-1]
             ret_defl_V = ret_defl_V[::-1]
 
+        # Assign data and metadata for Approach segment.
         appsegment.segment_formated_data = {
                 'height': app_x, 
                 'vDeflection': app_defl_V
             }
-
-        retsegment.segment_formated_data = {
-            'height': ret_x, 
-            'vDeflection': ret_defl_V
-        }
-
         appsegment.nb_point = len(app_x)
         appsegment.force_setpoint_mode = header['trigger_mode']
-        appsegment.nb_col = NANOSC_NB_COLS
+        appsegment.nb_col = len(list(appsegment.segment_formated_data.keys()))
         appsegment.force_setpoint = 0
         appsegment.velocity = header['speed_forward_nmbys']
         appsegment.sampling_rate = header['scan_rate_Hz']
         appsegment.z_displacement = header['ramp_size_nm']
 
+        # Assing data and metadata for Retract segment.
+        retsegment.segment_formated_data = {
+            'height': ret_x, 
+            'vDeflection': ret_defl_V
+        }
         retsegment.nb_point = len(ret_x)
         retsegment.force_setpoint_mode = header['FDC_data_length']
-        retsegment.nb_col = NANOSC_NB_COLS
+        retsegment.nb_col = len(list(retsegment.segment_formated_data.keys()))
         retsegment.force_setpoint = 0
         retsegment.velocity = header['speed_forward_nmbys']
         retsegment.sampling_rate = header['scan_rate_Hz']
         retsegment.z_displacement = header['ramp_size_nm']
 
-        force_curve.extend_segments.append((0, appsegment))
-        force_curve.retract_segments.append((1, retsegment))
+        force_curve.extend_segments.append(('0', appsegment))
+        force_curve.retract_segments.append(('1', retsegment))
 
         return force_curve

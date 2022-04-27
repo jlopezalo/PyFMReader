@@ -1,11 +1,25 @@
+# File containing the functions used to load AFM data
+# saved using the Universal File Format described in:
+# Reference: N/A
+
 import os
-from pyafmreader.importutils import ForceCurve, Segment
+from .importutils import ForceCurve, Segment
 import numpy as np
 
 def loadUFFheader(uffpath):
-    header = {}
-    header['file_path'] = uffpath
-    header["file_size_bytes"] = os.path.getsize(uffpath)
+    """
+    Load the header of an UFF AFM file.
+
+            Parameters:
+                    uffpath (str): Path to the file.
+            
+            Returns:
+                    header (dict): Dictionary containing the header information.
+    """
+    header = {
+        'file_path': uffpath,
+        "file_size_bytes": os.path.getsize(uffpath)
+    }
     header["file_type"] = os.path.splitext(uffpath)[-1]
     with open(uffpath, 'r') as file:
         for line in file.readlines():
@@ -19,6 +33,15 @@ def loadUFFheader(uffpath):
     return header
 
 def loadUFFcurve(header):
+    """
+    Load the data of an UFF AFM file.
+
+            Parameters:
+                    header (dict): Dictionary containing the UFF header information.
+            
+            Returns:
+                    fdc (importutils.ForceCurve): Force Distance Curve data stored in UFF.
+    """
     uffpath = header['file_path']
     idx = int(header['Recording_curve_id'])
     filename = header['Entry_filename']
@@ -26,23 +49,19 @@ def loadUFFcurve(header):
     for segid in range(int(header['Recording_number_segment'])):
         segtype = header[f'Recording_segment_{segid}_type']
         segcode = header[f'Recording_segment_{segid}_code']
-        fsetpointmode = header[f'Recording_segment_{segid}_force_setpoint_mode']
         npoints = int(header[f'Recording_segment_{segid}_nb_point'])
         ncols = int(header[f'Recording_segment_{segid}_nb_col'])
-        samprate = header[f'Recording_segment_{segid}_sampling_rate(Hz)']
-        vel = header[f'Recording_segment_{segid}_velocity(m/s)']
-        fsetpoint = header[f'Recording_segment_{segid}_force_setpoint(N)']
-        zdispl = header[f'Recording_segment_{segid}_z_displacement(m)']
 
         segdata = np.zeros((npoints, ncols))
-        segment = Segment(filename, segid, segtype)
+        segment = Segment(filename, str(segid), segtype)
         segment.nb_point = npoints
-        segment.force_setpoint_mode = fsetpointmode
         segment.nb_col = ncols
-        segment.force_setpoint = fsetpoint
-        segment.velocity = vel
-        segment.sampling_rate = samprate
-        segment.z_displacement = zdispl
+        segment.force_setpoint_mode = header[f'Recording_segment_{segid}_force_setpoint_mode']
+        segment.force_setpoint = header[f'Recording_segment_{segid}_force_setpoint(N)']
+        segment.velocity = header[f'Recording_segment_{segid}_velocity(m/s)']
+        segment.sampling_rate = header[f'Recording_segment_{segid}_sampling_rate(Hz)']
+        segment.z_displacement = header[f'Recording_segment_{segid}_z_displacement(m)']
+
         with open(uffpath, 'r') as file:
             i = 0
             for line in file.readlines():
@@ -63,5 +82,15 @@ def loadUFFcurve(header):
     return fdc
 
 def loadUFFtxt(uffpath, UFF):
+    """
+    Load the data of a txt UFF AFM file.
+
+            Parameters:
+                    uffpath (str): Path to the file.
+                    UFF (uff.UFF): Universal File Format object to store loaded data.
+            
+            Returns:
+                    UFF (uff.UFF): Universal File Format object containing loaded data.
+    """
     UFF.filemetadata = loadUFFheader(uffpath)
     return UFF

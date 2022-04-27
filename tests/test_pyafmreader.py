@@ -1,3 +1,7 @@
+# Unit tests for the pyafmreader module.
+
+# NOT FINISHED!!!
+
 import unittest
 from pyafmreader import loadfile
 
@@ -25,7 +29,7 @@ class TestPyafmreader(unittest.TestCase):
 
     def test_load_NANOSC_single_curve_header(self):
         metadata = self.NANOSC_SINGLE_CURVE_FILE.filemetadata
-        self.assertEqual(metadata.get('file_name', None), '20200904_Egel4-Z1.0_00025.spm')
+        self.assertEqual(metadata.get('Entry_filename', None), '20200904_Egel4-Z1.0_00025.spm')
         self.assertEqual(metadata.get('file_type', None), '.spm')
         self.assertEqual(metadata.get('version', None), '0x0920B046')
         self.assertEqual(metadata.get('zscan_sens_nmbyV', None), 13.203)
@@ -72,7 +76,7 @@ class TestPyafmreader(unittest.TestCase):
 
     def test_load_NANOSC_FV_header(self):
         metadata = self.NANOSC_FV_FILE.filemetadata
-        self.assertEqual(metadata.get('file_name', None), '20200903_Egel2.0_00023.spm')
+        self.assertEqual(metadata.get('Entry_filename', None), '20200903_Egel2.0_00023.spm')
         self.assertEqual(metadata.get('file_type', None), '.spm')
         self.assertEqual(metadata.get('version', None), '0x0920B046')
         self.assertEqual(metadata.get('zscan_sens_nmbyV', None), 13.203)
@@ -118,7 +122,7 @@ class TestPyafmreader(unittest.TestCase):
 
     def test_load_NANOSC_PFC_header(self):
         metadata = self.NANOSC_PFC_FILE.filemetadata
-        self.assertEqual(metadata.get('file_name', None), '08171528.0_00001.pfc')
+        self.assertEqual(metadata.get('Entry_filename', None), '08171528.0_00001.pfc')
         self.assertEqual(metadata.get('file_type', None), '.pfc')
         self.assertEqual(metadata.get('version', None), '0x0940B020')
         self.assertEqual(metadata.get('zscan_sens_nmbyV', None), 29.12)

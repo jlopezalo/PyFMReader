@@ -1,18 +1,61 @@
+# File containing the following functions:
+# - parseNANOSCheader: function used to load the metadata from NANOSCOPE files.
+# - getstring: Helper function to get string values from header lines.
+# - getfloat: Helper function to get float values from header lines.
+# - getint: Helper function to get int values from header lines.
+
 import os
 import re
+
 from ..constants import UFF_code, UFF_version
 
 def getstring(line):
+    """
+    Function used to get string values from NANOSCOPE header lines.
+
+            Parameters:
+                    line (str): NANOSCOPE header line.
+            
+            Returns:
+                    value (str): Extracted string value.
+    """
     return line.strip('\r\n').split(': ')[1]
 
 def getfloat(line):
+    """
+    Function used to get float values from NANOSCOPE header lines.
+
+            Parameters:
+                    line (str): NANOSCOPE header line.
+            
+            Returns:
+                    value (str): Extracted float value.
+    """
     _, nf = line.strip('\r\n').split(': ', 1)
     return float(re.findall(r'[-+]?\d*\.\d+|\d+', nf)[0])
 
 def getint(line):
+    """
+    Function used to get interger values from NANOSCOPE header lines.
+
+            Parameters:
+                    line (str): NANOSCOPE header line.
+            
+            Returns:
+                    value (str): Extracted interger value.
+    """
     return int(getfloat(line))
 
 def parseNANOSCheader(filepath):
+    """
+    Function used to load the data of a single force curve from a JPK file.
+
+            Parameters:
+                    filepath (str): Path to the NANOSCOPE file.
+            
+            Returns:
+                    header (dict): Dictionary containing the NANOSCOPE file metadata.
+    """
     header = {}
     position = None
     data_offset_found_flag = False

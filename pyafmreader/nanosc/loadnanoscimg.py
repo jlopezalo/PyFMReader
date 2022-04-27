@@ -1,8 +1,20 @@
+# File containing the function loadNANOSCimg,
+# used to load the piezo image from NANOSCOPE files.
+
 import itertools
 from struct import unpack
 import numpy as np
 
 def loadNANOSCimg(header):
+    """
+    Function used to load the piezo image from a NANOSCOPE file.
+
+            Parameters:
+                    header (dict): Dictionary containing the file metadata.
+            
+            Returns:
+                    piezoimg (np.array): 2D array containing the piezo image.
+    """
     filepath = header['file_path']
     with open(filepath, 'rb') as afmfile:
         fvimgoffset = header['FV_ima_offset']

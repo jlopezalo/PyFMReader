@@ -1,6 +1,25 @@
 import os
 
 def saveUFFtxt(savefile, UFF, savedir, curveidx=0):
+    """
+    Save data and metadata into txt UFF files.
+
+    If it is a Force Volume file, every force curve will be saved into an individual txt UFF file.
+
+    The txt files are named as follows: 
+
+        file_name.uff (for files containing single curves).
+
+        file_name_curveidx.uff (for Force Volume files).
+
+            Parameters:
+                    savefile (str): Path to the save file.
+                    UFF (uff.UFF): UFF object containing the data to save.
+                    savedir (str): Path to the folder to save the txt UFF files.
+                    curveidx (int): Index of the force distance curve to save.
+            
+            Returns: None
+    """
     filemetadata = UFF.filemetadata
     if UFF.isFV:
         savefile = os.path.join(savedir, filemetadata['Entry_filename'] + f'_{curveidx}' + '.uff')
@@ -57,6 +76,15 @@ def saveUFFtxt(savefile, UFF, savedir, curveidx=0):
         
 
 def writeUFFsegment(f, FDC):
+    """
+    Write data and metadata from each segment of the force curve to the UFF text file.
+
+            Parameters:
+                    f (file object): txt file to write into.
+                    FDC (importutils.ForceCurve): Force Curve object containing segments to save.
+            
+            Returns: None
+    """
     for segid, segment in FDC.get_segments():
         # Write segment header
         f.write("HE Recording_segment_%d_type:      %s\n" % (segid, segment.segment_type))

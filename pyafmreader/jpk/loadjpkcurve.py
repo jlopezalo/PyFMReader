@@ -1,3 +1,6 @@
+# File containing the loadJPKcurve function,
+# used to load single force curves from JPK files.
+
 from struct import unpack
 from itertools import groupby
 import numpy as np
@@ -6,7 +9,18 @@ from ..importutils import ForceCurve, Segment
 from ..constants import JPK_SETPOINT_MODE
 
 def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
+    """
+    Function used to load the data of a single force curve from a JPK file.
 
+            Parameters:
+                    paths (list): list containing the paths of the files present int the JPK file.
+                    afm_file (ZipFile): ZipFile buffer containing the data of the JPK file.
+                    curve_index (int): Index of curve to load.
+                    file_metadata (dict): Dictionary containing the file metadata.
+            
+            Returns:
+                    force_curve (importutils.ForceCurve): ForceCurve object containing the loaded data.
+    """
     file_id = file_metadata['file_id']
     curve_properties = file_metadata['curve_properties']
 
