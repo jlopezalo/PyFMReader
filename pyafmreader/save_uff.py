@@ -87,23 +87,23 @@ def writeUFFsegment(f, FDC):
     """
     for segid, segment in FDC.get_segments():
         # Write segment header
-        f.write("HE Recording_segment_%d_type:      %s\n" % (segid, segment.segment_type))
-        f.write("HE Recording_segment_%d_code:      %s\n" % (segid, segment.segment_code))
-        f.write("HE Recording_segment_%d_description: %s\n" % (segid, segment.description))
-        f.write("HE Recording_segment_%d_force_setpoint_mode: %s\n" % (segid, segment.force_setpoint_mode))
-        f.write("HE Recording_segment_%d_nb:        %d \n" % (segid, segid))
-        f.write("HE Recording_segment_%d_nb_point:  %d \n" % (segid, segment.nb_point))
-        f.write("HE Recording_segment_%d_nb_col:    %d \n" % (segid, segment.nb_col))
+        f.write("HE Recording_segment_%d_type:      %s\n" % (int(segid), segment.segment_type))
+        f.write("HE Recording_segment_%d_code:      %s\n" % (int(segid), segment.segment_code))
+        f.write("HE Recording_segment_%d_description: %s\n" % (int(segid), segment.description))
+        f.write("HE Recording_segment_%d_force_setpoint_mode: %s\n" % (int(segid), segment.force_setpoint_mode))
+        f.write("HE Recording_segment_%d_nb:        %d \n" % (int(segid), int(segid)))
+        f.write("HE Recording_segment_%d_nb_point:  %d \n" % (int(segid), segment.nb_point))
+        f.write("HE Recording_segment_%d_nb_col:    %d \n" % (int(segid), segment.nb_col))
         for colidx in range(segment.nb_col):
-            f.write("HE Recording_segment_%d_col_%d_title: %s \n" % (segid, colidx, list(segment.segment_formated_data.keys())[colidx]))
-            f.write("HE Recording_segment_%d_col_%d_unit:  %s \n" % (segid, colidx, list(segment.segment_formated_data.keys())[colidx]))
-        f.write("HE Recording_segment_%d_sampling_rate(Hz): %E \n" % (segid, segment.sampling_rate))
-        f.write("HE Recording_segment_%d_velocity(m/s): %E \n" % (segid, segment.velocity))
-        f.write("HE Recording_segment_%d_force_setpoint(N): %E \n" % (segid, segment.force_setpoint))
-        f.write("HE Recording_segment_%d_z_displacement(m): %E \n" % (segid, segment.z_displacement))
+            f.write("HE Recording_segment_%d_col_%d_title: %s \n" % (int(segid), colidx, list(segment.segment_formated_data.keys())[colidx]))
+            f.write("HE Recording_segment_%d_col_%d_unit:  %s \n" % (int(segid), colidx, list(segment.segment_formated_data.keys())[colidx]))
+        f.write("HE Recording_segment_%d_sampling_rate(Hz): %E \n" % (int(segid), segment.sampling_rate))
+        f.write("HE Recording_segment_%d_velocity(m/s): %E \n" % (int(segid), segment.velocity))
+        f.write("HE Recording_segment_%d_force_setpoint(N): %E \n" % (int(segid), segment.force_setpoint))
+        f.write("HE Recording_segment_%d_z_displacement(m): %E \n" % (int(segid), segment.z_displacement))
         # Write segment data
         for j in range(segment.nb_point):
-            ndat = "%s %5d " % (segment.segment_code, segid)
+            ndat = "%s %5d " % (segment.segment_code, int(segid))
             for k in range(segment.nb_col):
                 ndat = ndat + "%15E " % (list(segment.segment_formated_data.values())[k][j])
             f.write(ndat + "\n")
