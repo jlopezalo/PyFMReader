@@ -120,11 +120,14 @@ class UFF:
                 
                 Returns: None
         """
+        databuffers = []
         if self.isFV:
             for curveidx in range(self.filemetadata['Entry_tot_nb_curve']):
-                saveUFFtxt(self, self, savedir, curveidx)
+                buff = saveUFFtxt(self, self, savedir, curveidx)
+                databuffers.append(buff)
         else:
             buff = saveUFFtxt(self, self, savedir)
+            databuffers.append(buff)
         
-        if returnbuff: return buff
+        if returnbuff: return databuffers
         
