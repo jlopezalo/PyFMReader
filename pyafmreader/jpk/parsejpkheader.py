@@ -1,6 +1,11 @@
+# File containing the following functions:
+# - parseJPKheader: Used to load the metadata from a JPK file.
+# - parseJPKsegmentheader: Used to load the metadata of each segment
+#   for each force curve in a JPK file.
 
 import os
 import re
+
 from ..constants import *
 
 def parseJPKheader(filepath, header_properties, shared_data_properties):
@@ -195,6 +200,7 @@ def parseJPKsegmentheader(curve_properties, curve_index, file_type, segment_head
             Returns:
                     curve_properties (dict): Dictionary containing all the metadata for each force curve in the file.
     """
+    
     segment_metadata = {}
 
     # Parameters always found in the segment header

@@ -11,14 +11,18 @@ from .uff import UFF
 
 def loadfile(filepath):
     """
-    Load AFM file. Supported formats:
-    - JPK --> '.jpk-force', '.jpk-force-map', '.jpk-qi-data'
+    Load AFM file. 
+    
+    Supported formats:
+        - JPK --> .jpk-force, .jpk-force-map, .jpk-qi-data
+        - NANOSCOPE --> .spm, .pfc
+        - UFF --> .uff
 
             Parameters:
-                    uffpath (str): Path to the file.
+                    filepath (str): Path to the file.
             
             Returns:
-                    header (dict): Dictionary containing the header information.
+                    UFF (uff.UFF): Universal File Format object containing loaded data.
     """
     filesuffix = os.path.splitext(filepath)[-1]
 

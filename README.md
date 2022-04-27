@@ -15,13 +15,13 @@ from pyafmreader import loadfile
 
 NANOSC_FV_PATH = 'tests/testfiles/20200903_Egel2.0_00023.spm'
 
-NANOSC_SINGLE_CURVE_FILE = loadfile(NANOSC_SINGLE_CURVE_PATH)
+NANOSC_FV_FILE = loadfile(NANOSC_FV_PATH)
 
-metadata = NANOSC_SINGLE_CURVE_FILE.filemetadata
+metadata = NANOSC_FV_FILE.filemetadata
 
-piezoimg = NANOSC_SINGLE_CURVE_FILE.getpiezoimg()
+piezoimg = NANOSC_FV_FILE.getpiezoimg()
 
-FC = NANOSC_SINGLE_CURVE_FILE.getcurve(0)
+FC = NANOSC_FV_FILE.getcurve(0)
 
 FC_segments = FC.get_segments()
 
