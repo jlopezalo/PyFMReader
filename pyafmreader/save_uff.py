@@ -73,6 +73,8 @@ def saveUFFtxt(savefile, UFF, savedir, curveidx=0):
         f.write("HE Recording_Z_close_loop_on:       %s\n" % (filemetadata.get('Recording_Z_close_loop_on', 0)))
         f.write("HE Recording_XY_close_loop_on:      %s\n" % (filemetadata.get('Recording_XY_close_loop_on', 0)))
         writeUFFsegment(f, FDC)
+    
+    return f
         
 
 def writeUFFsegment(f, FDC):

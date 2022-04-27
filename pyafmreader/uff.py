@@ -111,7 +111,7 @@ class UFF:
             self.piezoimg = loadNANOSCimg(self.filemetadata)
         return self.piezoimg
     
-    def to_txt(self, savedir):
+    def to_txt(self, savedir, returnbuff=False):
         """
         Function used to save the loaded data into a txt file following the UFF.
 
@@ -124,5 +124,7 @@ class UFF:
             for curveidx in range(self.filemetadata['Entry_tot_nb_curve']):
                 saveUFFtxt(self, self, savedir, curveidx)
         else:
-            saveUFFtxt(self, self, savedir)
+            buff = saveUFFtxt(self, self, savedir)
+        
+        if returnbuff: return buff
         
