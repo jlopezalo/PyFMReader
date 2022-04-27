@@ -19,7 +19,6 @@ setup(
     url="https://github.com/jlopezalo/pyafmreader",
     install_requires = [
         'Cython==0.29.28',
-        'numpy==1.21.6',
-        'fasterzip>=0.1'
+        'numpy==1.21.6'
     ]
 )
