@@ -12,9 +12,11 @@ setup(
     long_description_content_type = "text/markdown",
     packages=find_packages(),
     url="https://github.com/jlopezalo/pyafmreader",
-    setup_requires=['Cython'],
+    setup_requires=[
+        'Cython',
+    ],
     install_requires = [
         'Cython',
-        'fasterzip @ git+https://github.com/TkTech/fasterzip.git@09e2cae7821f96f4ba8f6d4122e1045352a656b4#egg=fasterzip',
+        'fasterzip @ git+https://github.com/TkTech/fasterzip.git#egg=fasterzip',
     ]
 )
