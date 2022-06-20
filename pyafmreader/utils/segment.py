@@ -5,11 +5,7 @@
 # Includes the following methods:
 # preprocess_segment()
 # get_force_vs_indentation_curve()
-# ForceCurve --------------------------------------------------
-# Class used to store the data of the different force curves
-# within a file.
-# Includes the following methods:
-# get_segments()
+
 
 import numpy as np
 
@@ -104,7 +100,7 @@ class Segment:
             segment_duration = self.nb_point * self.sampling_rate
             self.time = np.linspace(0, segment_duration, self.nb_point, endpoint=False)
     
-    def get_force_vs_indentation_curve(self, poc, spring_constant):
+    def get_force_vs_indentation(self, poc, spring_constant):
         """
         Computes force vs indentation curve from deflection and piezo_height and populates
         the indentation and force properties.
@@ -128,41 +124,3 @@ class Segment:
         # Force = Kc(N/m) * deflection(m)
         self.indentation = np.array(self.zheight - self.vdeflection - center_force_x)
         self.force = np.array(self.zheight * spring_constant - center_force_y)
-
-
-class ForceCurve:
-    """
-    Class used to store the data of the different force curves
-    within a file.
-
-            Properties:
-                    file_id (str): AFM File identifier
-                    curve_index (str): Curve position in the AFM File (0, 1, 2, etc.)
-                    extend_segments (list): List containing approach segments.
-                    retract_segments (list): List containing retract segments.
-                    pause_segments (list): List containing pause segments.
-                    modulation_segments (list): List containing modulation segments.
-            
-            Methods:
-                    get_segments
-    """
-    def __init__(self, curve_index, file_id):
-        self.file_id = file_id
-        self.curve_index = curve_index
-        self.extend_segments = []
-        self.retract_segments = []
-        self.pause_segments = []
-        self.modulation_segments = []
-
-    def get_segments(self):
-        """
-        Get all the force curve segments ordered by their segment id.
-
-                Parameters: None
-                
-                Returns: List containing all the force curve segments sorted by their segment id.
-        """
-        force_curve_segments = [
-            *self.extend_segments, *self.pause_segments, *self.modulation_segments, *self.retract_segments
-        ]
-        return sorted(force_curve_segments, key=lambda x: int(x[0]))

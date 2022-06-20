@@ -81,7 +81,7 @@ def writeUFFsegment(f, FDC):
 
             Parameters:
                     f (file object): txt file to write into.
-                    FDC (importutils.ForceCurve): Force Curve object containing segments to save.
+                    FDC (utils.forcecurve.ForceCurve): Force Curve object containing segments to save.
             
             Returns: None
     """

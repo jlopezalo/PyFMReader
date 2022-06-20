@@ -3,7 +3,8 @@
 # Reference: N/A
 
 import os
-from .importutils import ForceCurve, Segment
+from .utils.forcecurve import ForceCurve
+from .utils.segment import Segment
 import numpy as np
 
 def loadUFFheader(uffpath):

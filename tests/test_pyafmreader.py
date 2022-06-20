@@ -177,3 +177,6 @@ class TestPyafmreader(unittest.TestCase):
 
     def test_load_UFF_header(self):
         pass
+
+if __name__ == '__main__':
+    unittest.main()

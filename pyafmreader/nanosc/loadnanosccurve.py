@@ -4,7 +4,8 @@
 import numpy as np
 from struct import unpack
 
-from ..importutils import ForceCurve, Segment
+from ..utils.forcecurve import ForceCurve
+from ..utils.segment import Segment
 
 def loadNANOSCcurve(idx, header):
     """
@@ -15,7 +16,7 @@ def loadNANOSCcurve(idx, header):
                     header (dict): Dictionary containing all NANOSCOPE file metadata.
             
             Returns:
-                    force_curve (importutils.ForceCurve): ForceCurve object containing the loaded data.
+                    force_curve (utils.forcecurve.ForceCurve): ForceCurve object containing the loaded data.
     """
     
     file_name = header['Entry_filename']

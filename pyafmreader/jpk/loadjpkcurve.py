@@ -5,7 +5,8 @@ from struct import unpack
 from itertools import groupby
 import numpy as np
 
-from ..importutils import ForceCurve, Segment
+from ..utils.forcecurve import ForceCurve
+from ..utils.segment import Segment
 from ..constants import JPK_SETPOINT_MODE
 
 def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
@@ -19,7 +20,7 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
                     file_metadata (dict): Dictionary containing the file metadata.
             
             Returns:
-                    force_curve (importutils.ForceCurve): ForceCurve object containing the loaded data.
+                    force_curve (utils.forcecurve.ForceCurve): ForceCurve object containing the loaded data.
     """
     file_id = file_metadata['file_id']
     curve_properties = file_metadata['curve_properties']
