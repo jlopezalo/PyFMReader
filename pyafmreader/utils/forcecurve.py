@@ -62,7 +62,7 @@ class ForceCurve:
                 
                 Returns: None
         """
-        for segment in self.get_segments():
+        for _, segment in self.get_segments():
             segment.preprocess_segment(deflection_sens, height_channel_key, y0)
         
     def get_force_vs_indentation(self, poc, spring_constant):
@@ -81,5 +81,5 @@ class ForceCurve:
                 
                 Returns: None
         """
-        for segment in self.get_segments():
+        for _, segment in self.get_segments():
             segment.get_force_vs_indentation(poc, spring_constant)
