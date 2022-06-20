@@ -41,7 +41,7 @@ def loadUFFcurve(header):
                     header (dict): Dictionary containing the UFF header information.
             
             Returns:
-                    fdc (importutils.ForceCurve): Force Distance Curve data stored in UFF.
+                    fdc (utils.forcecurve.ForceCurve): Force Distance Curve data stored in UFF.
     """
     uffpath = header['file_path']
     idx = int(header['Recording_curve_id'])

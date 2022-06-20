@@ -50,7 +50,7 @@ class UFF:
                         file_type (str): File extension.
                 
                 Returns:
-                        FC (importutils.ForceCurve): ForceCurve object containing the force curve data.
+                        FC (utils.forcecurve.ForceCurve): ForceCurve object containing the force curve data.
         """
         if file_type in jpkfiles:
             curvepaths = self._groupedpaths[curveidx]
@@ -76,7 +76,7 @@ class UFF:
                         curveidx (int): Index of curve to load.
                 
                 Returns:
-                        FC (importutils.ForceCurve): ForceCurve object containing the force curve data.
+                        FC (utils.forcecurve.ForceCurve): ForceCurve object containing the force curve data.
         """
         file_type = self.filemetadata['file_type']
         if file_type in jpkfiles:
