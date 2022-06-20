@@ -88,7 +88,8 @@ class Segment:
                 Returns: None
         """
         deflection_v = self.segment_formated_data["vDeflection"]
-        if self.segment_metadata["baseline_measured"]:
+        if self.segment_metadata["baseline_measured"] is not None and\
+            self.segment_metadata["baseline_measured"] == True:
             deflection_v = deflection_v - self.segment_metadata["baseline"]
         elif y0 is not None:
             deflection_v = deflection_v - y0
