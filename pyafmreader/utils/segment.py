@@ -124,4 +124,4 @@ class Segment:
         # Indentation = piezo_height(m) − deflection(m) − (piezo_height(CP)(m) − deflection(CP)(m))
         # Force = Kc(N/m) * deflection(m)
         self.indentation = np.array(self.zheight - self.vdeflection - center_force_x)
-        self.force = np.array(self.zheight * spring_constant - center_force_y)
+        self.force = np.array(self.vdeflection * spring_constant - center_force_y)
