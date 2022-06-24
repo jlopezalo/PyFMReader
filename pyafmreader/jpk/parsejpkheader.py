@@ -133,8 +133,8 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
             properties["deflection_force_multiplier"] = float(shared_data_properties.get(pre_conv + conv_force + ".scaling.multiplier", multiplier_default))
 
             if channel_name == "vDeflection":
-                file_metadata["original_deflection_sensitivity"] = float(properties.get("deflection_distance_multiplier", multiplier_default))
-                file_metadata["original_spring_constant"] = float(properties.get("deflection_force_multiplier", multiplier_default))
+                file_metadata["defl_sens_nmbyV"] = float(properties.get("deflection_distance_multiplier", multiplier_default))
+                file_metadata["spring_const_Nbym"] = float(properties.get("deflection_force_multiplier", multiplier_default))
 
                 if not properties["distance_defined"] and not properties["force_defined"]:
                     print(f"[!] In the file's {file_metadata['file_id']} header the deflection sensitivity and spring constant could not be found,\

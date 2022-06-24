@@ -42,6 +42,8 @@ def loadNANOSCcurve(idx, header):
         PFC_amp = header['PFC_amp']
         PFC_nb_samppoints = header['PFC_nb_samppoints']
         QNM_sync_dist = header['QNM_sync_dist']
+        forward_duration = header['ramp_duration_forward']
+        reverse_duration = header['ramp_duration_reverse']
 
         app_x =  np.arange(nb_point_approach) * zstep_approach_nm
         ret_x =  np.arange(nb_point_retract) * zstep_retract_nm
@@ -109,7 +111,8 @@ def loadNANOSCcurve(idx, header):
         # Assign data and metadata for Approach segment.
         appsegment.segment_formated_data = {
                 'height': app_x / 1e09, 
-                'vDeflection': app_defl_V
+                'vDeflection': app_defl_V,
+                'time': np.linspace(0, forward_duration, len(app_x), endpoint=False)
             }
         appsegment.nb_point = len(app_x)
         appsegment.force_setpoint_mode = header['trigger_mode']
@@ -122,13 +125,14 @@ def loadNANOSCcurve(idx, header):
         # Assing data and metadata for Retract segment.
         retsegment.segment_formated_data = {
             'height': ret_x / 1e09, 
-            'vDeflection': ret_defl_V
+            'vDeflection': ret_defl_V,
+            'time': np.linspace(0, reverse_duration, len(ret_x), endpoint=False)
         }
         retsegment.nb_point = len(ret_x)
         retsegment.force_setpoint_mode = header['FDC_data_length']
         retsegment.nb_col = len(list(retsegment.segment_formated_data.keys()))
         retsegment.force_setpoint = 0
-        retsegment.velocity = header['speed_forward_nmbys']
+        retsegment.velocity = header['speed_reverse_nmbys']
         retsegment.sampling_rate = header['scan_rate_Hz']
         retsegment.z_displacement = header['ramp_size_nm']
 

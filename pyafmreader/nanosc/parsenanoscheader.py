@@ -208,5 +208,8 @@ def parseNANOSCheader(filepath):
         header['speed_reverse_nmbys'] = header['speed_reverse_Vbys'] * header['zscan_sens_nmbyV']
         header['zstep_approach_nm'] = header['ramp_size_nm'] / header['nb_point_approach']
         header['zstep_retract_nm'] = header['ramp_size_nm'] / header['nb_point_retract']
+        header['ramp_duration_forward'] = header['ramp_size_nm'] / header['speed_forward_nmbys']
+        header['ramp_duration_reverse'] = header['ramp_size_nm'] / header['speed_reverse_nmbys']
+        header['height_channel_key'] = 'height'
     
     return header
