@@ -65,9 +65,9 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     file_metadata["scan_size_x"] = float(header_properties.get(prefix + ".position-pattern.grid.ulength", offset_default)) * scaling_factor
     file_metadata["scan_size_y"] = float(header_properties.get(prefix + ".position-pattern.grid.vlength", offset_default)) * scaling_factor
     
-    file_metadata["z_closed_loop_status"] = header_properties.get(prefix + ".settings.force-settings.closed-loop", boolean_default)
-    if file_metadata["z_closed_loop_status"] == "true": file_metadata["Recording_Z_close_loop_on"] = "On"
-    elif file_metadata["z_closed_loop_status"] == "false": file_metadata["Recording_Z_close_loop_on"] = "Off"
+    file_metadata["z_closed_loop"] = header_properties.get(prefix + ".settings.force-settings.closed-loop", boolean_default)
+    if file_metadata["z_closed_loop"] == "true": file_metadata["Recording_Z_close_loop_on"] = "On"
+    elif file_metadata["z_closed_loop"] == "false": file_metadata["Recording_Z_close_loop_on"] = "Off"
 
     file_metadata["Entry_tot_nb_curve"] = int(header_properties.get(prefix + ".indexes.max", offset_default))
     file_metadata["extend_pause_duration"] = float(header_properties.get(prefix + ".settings.force-settings.extended-pause-time", offset_default))
