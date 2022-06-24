@@ -104,9 +104,9 @@ def loadNANOSCcurve(idx, header):
         app_defl_V = app_defl_V[start_pos:] - ret_defl_V[-1]
         ret_defl_V = ret_defl_V - ret_defl_V[-1]
 
-        if not isPFC:
-            app_defl_V = app_defl_V[::-1]
-            ret_defl_V = ret_defl_V[::-1]
+        # if not isPFC:
+        #     app_defl_V = app_defl_V[::-1]
+        #     ret_defl_V = ret_defl_V[::-1]
 
         # Assign data and metadata for Approach segment.
         appsegment.segment_formated_data = {
