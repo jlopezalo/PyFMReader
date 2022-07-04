@@ -110,7 +110,7 @@ def loadNANOSCcurve(idx, header):
 
         # Assign data and metadata for Approach segment.
         appsegment.segment_formated_data = {
-                'height': app_x, 
+                'height': app_x * 1e-9, 
                 'vDeflection': app_defl_V,
                 'time': np.linspace(0, forward_duration, len(app_x), endpoint=False)
             }
@@ -124,7 +124,7 @@ def loadNANOSCcurve(idx, header):
 
         # Assing data and metadata for Retract segment.
         retsegment.segment_formated_data = {
-            'height': ret_x,
+            'height': ret_x * 1e-9,
             'vDeflection': ret_defl_V,
             'time': np.linspace(0, reverse_duration, len(ret_x), endpoint=False)
         }
