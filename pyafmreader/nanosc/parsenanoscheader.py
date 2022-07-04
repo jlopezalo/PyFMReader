@@ -46,6 +46,10 @@ def getint(line):
     """
     return int(getfloat(line))
 
+def getbracketstring(line):
+    _, nf = line.strip('\r\n').split(': ', 1)
+    return re.findall(r'\[(.*?)\]', nf)[0]
+
 def parseNANOSCheader(filepath):
     """
     Function used to load the data of a single force curve from a JPK file.
@@ -119,6 +123,7 @@ def parseNANOSCheader(filepath):
                         header['peakforce'] = 0
                 elif '\\Peak Force Amplitude:' in line:
                     header['PFC_amp'] = getfloat(line)
+                    header['ramp_size_V'] = header['PFC_amp'] * 2
                 elif '\\PFT Freq:' in line:
                     header['PFC_freq'] = getfloat(line)
                 elif '\\Sample Points:' in line:
@@ -172,15 +177,18 @@ def parseNANOSCheader(filepath):
                 elif '\\@4:FV scale: V [Sens. ZsensSens]' in line:
                     header['z_scale_Vbybyte'] = getfloat(line, -1)
                 elif '\\@4:Ramp size:' in line or\
-                     '\\@4:Ramp Size:' in line:
-                    header['ramp_size_V'] = getfloat(line, -1)
+                     '\\@4:Ramp Size:' in line and\
+                     not bool(header['peakforce']):
+                     header['ramp_size_V'] = getfloat(line, -1)
                 elif "\\@4:Image Data" in line:
-                    channel = getstring(line)
-                    print(channel)
+                    channel = getbracketstring(line)
                 elif '\\@4:Z Display' in line or\
                      '\\@4:Z display:' in line or\
                      '\\@4:Ramp End:' in line:
-                     pass
+                     if channel == "ZSensor":
+                         pass
+                     if channel == "DeflectionError":
+                         pass
             
             # ImageList position fields
             elif position == 'ImageList':
