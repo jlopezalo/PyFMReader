@@ -21,7 +21,7 @@ def getstring(line):
     """
     return line.strip('\r\n').split(': ')[1]
 
-def getfloat(line):
+def getfloat(line, idx=0):
     """
     Function used to get float values from NANOSCOPE header lines.
 
@@ -32,7 +32,7 @@ def getfloat(line):
                     value (str): Extracted float value.
     """
     _, nf = line.strip('\r\n').split(': ', 1)
-    return float(re.findall(r'[-+]?\d*\.\d+|\d+', nf)[0])
+    return float(re.findall(r'[-+]?\d*\.\d+|\d+', nf)[idx])
 
 def getint(line):
     """
@@ -170,10 +170,10 @@ def parseNANOSCheader(filepath):
                 elif '\\@4:Z scale: V [Sens. DeflSens]' in line:
                     header['z_scale_Vbybyte'] = getfloat(line)
                 elif '\\@4:FV scale: V [Sens. ZsensSens]' in line:
-                    header['z_scale_Vbybyte'] = getfloat(line)
+                    header['z_scale_Vbybyte'] = getfloat(line, -1)
                 elif '\\@4:Ramp size:' in line or\
                      '\\@4:Ramp Size:' in line:
-                    header['ramp_size_V'] = getfloat(line)
+                    header['ramp_size_V'] = getfloat(line, -1)
                 elif "\\@4:Image Data" in line:
                     channel = getstring(line)
                     print(channel)
