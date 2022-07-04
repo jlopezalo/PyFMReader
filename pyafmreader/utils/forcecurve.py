@@ -64,6 +64,22 @@ class ForceCurve:
         """
         for _, segment in self.get_segments():
             segment.preprocess_segment(deflection_sens, height_channel_key, y0)
+    
+    def shift_height(self):
+        """
+        Shifts the values of zheight using the last zheight value of the last retract segment.
+        This operation is necessary to process JPK files.
+        
+        xzero(m) = last zheight value of last retract segment
+        shifted zheight = xzero(m) − zheight(m)
+
+                Parameters: None
+                
+                Returns: None
+        """
+        xzero = self.retract_segments[-1].zheight[-1] # Maximum height
+        for _, segment in self.get_segments():
+                segment.zheight = xzero - segment.zheight
         
     def get_force_vs_indentation(self, poc, spring_constant):
         """
