@@ -77,7 +77,7 @@ class ForceCurve:
                 
                 Returns: None
         """
-        xzero = self.retract_segments[-1].zheight[-1] # Maximum height
+        xzero = self.retract_segments[-1][-1].zheight[-1] # Maximum height
         for _, segment in self.get_segments():
                 segment.zheight = xzero - segment.zheight
         
