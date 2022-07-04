@@ -174,6 +174,13 @@ def parseNANOSCheader(filepath):
                 elif '\\@4:Ramp size:' in line or\
                      '\\@4:Ramp Size:' in line:
                     header['ramp_size_V'] = getfloat(line)
+                elif "\\@4:Image Data" in line:
+                    channel = getstring(line)
+                    print(channel)
+                elif '\\@4:Z Display' in line or\
+                     '\\@4:Z display:' in line or\
+                     '\\@4:Ramp End:' in line:
+                     pass
             
             # ImageList position fields
             elif position == 'ImageList':

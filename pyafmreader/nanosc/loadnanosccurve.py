@@ -44,6 +44,7 @@ def loadNANOSCcurve(idx, header):
         QNM_sync_dist = header['QNM_sync_dist']
         forward_duration = header['ramp_duration_forward']
         reverse_duration = header['ramp_duration_reverse']
+        scale_factor = header['z_scale_Vbybyte']
 
         app_x =  np.arange(nb_point_approach) * zstep_approach_nm
         ret_x =  np.arange(nb_point_retract) * zstep_retract_nm
@@ -110,7 +111,7 @@ def loadNANOSCcurve(idx, header):
 
         # Assign data and metadata for Approach segment.
         appsegment.segment_formated_data = {
-                'height': app_x / 1e09, 
+                'height': app_x * scale_factor / 1e09, 
                 'vDeflection': app_defl_V,
                 'time': np.linspace(0, forward_duration, len(app_x), endpoint=False)
             }
@@ -124,7 +125,7 @@ def loadNANOSCcurve(idx, header):
 
         # Assing data and metadata for Retract segment.
         retsegment.segment_formated_data = {
-            'height': ret_x / 1e09, 
+            'height': ret_x * scale_factor / 1e09, 
             'vDeflection': ret_defl_V,
             'time': np.linspace(0, reverse_duration, len(ret_x), endpoint=False)
         }
