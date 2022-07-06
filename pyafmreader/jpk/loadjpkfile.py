@@ -28,6 +28,7 @@ def loadJPKfile(filepath, UFF, filesuffix):
             UFF._sharedataprops = {item.split("=")[0]:item.split("=")[1] for item in shared_data_properties_raw if not item.startswith("#")}
 
         UFF.filemetadata = parseJPKheader(filepath, header_properties, UFF._sharedataprops)
+        UFF.isFV = bool(UFF.filemetadata['force_volume'])
 
         paths = [name.decode() for name in afm_file.namelist() if "segments" in name.decode()]
 
