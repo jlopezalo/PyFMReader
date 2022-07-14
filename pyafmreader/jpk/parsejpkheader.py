@@ -69,7 +69,7 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     if file_metadata["z_closed_loop"] == "true": file_metadata["Recording_Z_close_loop_on"] = "On"
     elif file_metadata["z_closed_loop"] == "false": file_metadata["Recording_Z_close_loop_on"] = "Off"
 
-    file_metadata["Entry_tot_nb_curve"] = int(header_properties.get(prefix + ".indexes.max", offset_default))
+    file_metadata["Entry_tot_nb_curve"] = int(header_properties.get(prefix + ".indexes.max", offset_default)) + 1
     file_metadata["extend_pause_duration"] = float(header_properties.get(prefix + ".settings.force-settings.extended-pause-time", offset_default))
 
     if file_metadata["file_type"] in (".jpk-force"):
