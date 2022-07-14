@@ -27,7 +27,9 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
 
     force_curve = ForceCurve(curve_index, file_id)
 
-    index = 1 if file_metadata["Entry_tot_nb_curve"] == 0 else 3
+    curve_indices = file_metadata["Entry_tot_nb_curve"] - 1
+
+    index = 1 if curve_indices == 0 else 3
 
     keyf = lambda text: text.split("/")[index]
     groupded_paths = [list(items) for _, items in groupby(sorted(paths), key=keyf)][1:]
