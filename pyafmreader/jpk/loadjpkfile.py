@@ -50,7 +50,9 @@ def loadJPKfile(filepath, UFF, filesuffix):
 
         curve_properties = {}
 
-        index = 1 if UFF.filemetadata["Entry_tot_nb_curve"] == 0 else 3
+        curve_indices = UFF.filemetadata["Entry_tot_nb_curve"] - 1
+
+        index = 1 if curve_indices == 0 else 3
 
         keyf = lambda text: text.split("/")[index]
         groupded_paths = [list(items) for _, items in groupby(sorted(paths), key=keyf)][1:]
