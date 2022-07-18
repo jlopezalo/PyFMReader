@@ -18,8 +18,8 @@ setup(
     packages=find_packages(),
     url="https://github.com/jlopezalo/pyafmreader",
     install_requires = [
-        'Cython==0.29.28',
-        'numpy==1.21.6',
+        'Cython>=0.29.28',
+        'numpy>=1.22',
         'fasterzip @ git+https://github.com/TkTech/fasterzip.git'
     ]
 )
