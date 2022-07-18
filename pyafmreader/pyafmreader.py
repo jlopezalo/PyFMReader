@@ -5,6 +5,7 @@
 import os
 from .constants import *
 from .jpk.loadjpkfile import loadJPKfile
+from .jpk.loadjpkthermalfile import loadJPKThermalFile
 from .nanosc.loadnanoscfile import loadNANOSCfile
 from .load_uff import loadUFFtxt
 from .uff import UFF
@@ -15,6 +16,7 @@ def loadfile(filepath):
     
     Supported formats:
         - JPK --> .jpk-force, .jpk-force-map, .jpk-qi-data
+        - JPK Thermal --> .tnd
         - NANOSCOPE --> .spm, .pfc
         - UFF --> .uff
 
@@ -22,19 +24,28 @@ def loadfile(filepath):
                     filepath (str): Path to the file.
             
             Returns:
-                    UFF (uff.UFF): Universal File Format object containing loaded data.
+                    If JPK, NANOSCOPE OR UFF:
+                        UFF (uff.UFF): Universal File Format object containing loaded data.
+                    If JPK Thermal:
+                        Amplitude (m^2/V) (np.array),
+                        Frequencies (Hz) (np.array),
+                        Fit-Data (m^2/V) (np.array),
+                        Parameters (dict)
+
+
     """
     filesuffix = os.path.splitext(filepath)[-1]
 
     uffobj = UFF()
 
     if filesuffix in jpkfiles:
-        uffobj = loadJPKfile(filepath, uffobj, filesuffix)
+        return loadJPKfile(filepath, uffobj, filesuffix)
     
     elif filesuffix in nanoscfiles:
-        uffobj = loadNANOSCfile(filepath, uffobj)
+        return loadNANOSCfile(filepath, uffobj)
     
     elif filesuffix in ufffiles:
-        uffobj = loadUFFtxt(filepath, uffobj)
+        return loadUFFtxt(filepath, uffobj)
     
-    return uffobj
+    elif filesuffix in jpkthermalfiles:
+        return loadJPKThermalFile(filepath)

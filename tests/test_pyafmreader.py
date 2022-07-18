@@ -12,6 +12,7 @@ class TestPyafmreader(unittest.TestCase):
         JPK_SINGLE_CURVE_PATH = 'tests/testfiles/force-save-2020.12.04-14.39.51.983.jpk-force'
         JPK_FV_PATH = None
         JPK_QI_PATH = None
+        JPK_THERMAL_PATH = 'tests/testfiles/PFQNM-H2O-thermal-noise-data_vDeflection_2022.01.12-11.37.51.tnd'
         NANOSC_SINGLE_CURVE_PATH = 'tests/testfiles/20200904_Egel4-Z1.0_00025.spm'
         NANOSC_FV_PATH = 'tests/testfiles/20200903_Egel2.0_00023.spm'
         NANOSC_PFC_PATH = 'tests/testfiles/08171528.0_00001.pfc'
@@ -173,6 +174,9 @@ class TestPyafmreader(unittest.TestCase):
         pass
 
     def test_load_JPK_QI_header(self):
+        pass
+
+    def test_load_JPK_THERMAL_header(self):
         pass
 
     def test_load_UFF_header(self):
