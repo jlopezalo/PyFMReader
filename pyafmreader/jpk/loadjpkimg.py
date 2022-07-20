@@ -1,3 +1,5 @@
+from audioop import mul
+from cmath import inf
 import contextlib
 import io
 import numpy as np
@@ -12,12 +14,24 @@ valid_channels = [
     'Baseline', 'Height(measured)', 'SlopeFit', 'Adhesion', 'Height'
 ]
 
-def get_channel_conversion_factors(tif_tags_list):
+valid_scalings = [
+    'Force', 'volts', 'Calibrated height', 'Nominal height'
+]
+
+height_channels = [
+    'Height(measured)', 'Height'
+]
+
+valid_height_scalings = [
+    'Calibrated height', 'Nominal height'
+]
+
+def get_channel_conversion_factors(tif_tags_list, channel_name):
     """
     Get the conversion factors for each channel in the image.
     At the moment (last review 20/07/2022) these factors are stored
     in the tiff tags towards the end. To get this parameters the last
-    6 tags are fetched and the information is extracted as follows:
+    7 tags are fetched and the information is extracted as follows:
     Example conversion factors:
     ['Calibrated height', 'SignedInteger', 'm', 'LinearScaling', -1.6953501835001456e-16, 6.218212395112357e-06]
     [name of the calibration, value type, units, scaling mode, multiplier, offset]
@@ -29,9 +43,20 @@ def get_channel_conversion_factors(tif_tags_list):
                     mult (float): multiplier to scale the raw data into the right units.
                     offset (float): offset to scale the raw data into the right units.
     """
-    info = tif_tags_list[-6:]
-    mult = info[-2]
-    offset = info[-1]
+    mult, offset = None, None
+    last_7_tags = tif_tags_list[-7:]
+    for i, tag in enumerate(last_7_tags):
+        if tag not in valid_scalings:
+            continue
+        scaling_type = last_7_tags[i]
+        mult = last_7_tags[i+4]
+        offset = last_7_tags[i+5]
+        break
+    # print(channel_name, scaling_type)
+    # print(last_7_tags)
+    if channel_name in height_channels and scaling_type not in valid_height_scalings:
+        mult, offset = None, None
+    # print(mult, offset)
     return mult, offset
 
 def loadJPKimg(UFF):
@@ -62,17 +87,16 @@ def loadJPKimg(UFF):
                 channel_name = None
                 for page in tif.pages[1:]:
                     tif_tags = [tag.value for tag in page.tags.values()]
+                    # print(tif_tags)
                     for tag in tif_tags:
+                        # print(tag)
                         with contextlib.suppress(TypeError):
                             if 'algorithm.object-name.base-object-name.fancy-name' in tag:
                                 channel_name = tag.split('\n')[0].split(':')[1].replace(' ', '')
                     if channel_name not in  valid_channels:
                         continue
                     # Try to fetch the multiplier and offset.
-                    try:
-                        mult, offset = get_channel_conversion_factors(tif_tags)
-                    except IndexError:
-                        mult, offset = 1.0, 0.0
+                    mult, offset = get_channel_conversion_factors(tif_tags, channel_name)
                     # Check if the multiplier and the offset have been extracted properly.
                     # In the test files it works correctly. But weird things may happen with
                     # other files.
@@ -117,3 +141,10 @@ def computeJPKPiezoImg(UFF):
             piezoimg = piezoimg
     
     return piezoimg
+
+if __name__ == '__main__':
+    from pyafmreader import loadfile
+    # JPK_FORCEMAP_PATH = '/Users/javierlopez/Documents/pyafmreader/tests/testfiles/map-data-2021.11.05-17.37.44.432.jpk-force-map'
+    JPK_FORCEMAP_PATH = '/Users/javierlopez/Documents/pyafmreader/tests/testfiles/qi-data-2022.04.01-16.51.44.168.jpk-qi-data'
+    UFF = loadfile(JPK_FORCEMAP_PATH)
+    # print(UFF.imagedata)
