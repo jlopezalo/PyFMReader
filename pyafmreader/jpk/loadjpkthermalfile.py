@@ -9,9 +9,8 @@ def loadJPKThermalFile(file_path):
         # On the current version the header of
         # JPK thermal files consists of 23 rows.
         header_rows = 23
-        header_sep = '\n'
         # Read header
-        file_header = pd.read_csv(file_path, sep=header_sep, header=None, nrows=header_rows)
+        file_header = pd.read_csv(file_path, header=None, nrows=header_rows)
         parameters = {}
         for value in file_header[0]:
             param_data = value.replace('# ', '').split(': ')
