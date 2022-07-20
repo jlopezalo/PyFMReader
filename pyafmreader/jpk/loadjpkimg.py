@@ -26,6 +26,14 @@ valid_height_scalings = [
     'Calibrated height', 'Nominal height'
 ]
 
+valid_vars_channels = [
+    'Baseline', 'SlopeFit', 'Adhesion'
+]
+
+valid_vars_scalings = [
+    'Force', 'volts'
+]
+
 def get_channel_conversion_factors(tif_tags_list, channel_name):
     """
     Get the conversion factors for each channel in the image.
@@ -54,8 +62,9 @@ def get_channel_conversion_factors(tif_tags_list, channel_name):
         break
     # print(channel_name, scaling_type)
     # print(last_7_tags)
-    if channel_name in height_channels and scaling_type not in valid_height_scalings:
-        mult, offset = None, None
+    if (channel_name in height_channels and scaling_type not in valid_height_scalings) or\
+         (channel_name in valid_vars_channels and scaling_type not in valid_vars_scalings):
+         mult, offset = None, None
     # print(mult, offset)
     return mult, offset
 
