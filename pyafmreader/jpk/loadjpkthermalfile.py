@@ -14,7 +14,7 @@ def loadJPKThermalFile(file_path):
         parameters = {}
         for value in file_header[0]:
             param_data = value.replace('# ', '').split(': ')
-            print(value.replace('# ', '').split(': '))
+            # print(value.replace('# ', '').split(': '))
             # Skip rows with only one element.
             # These are normally rows containing titles for
             # sections of the file, like: thermal noise data
