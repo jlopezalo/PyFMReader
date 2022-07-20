@@ -2,6 +2,7 @@ import os
 from itertools import groupby
 from fasterzip import ZipFile
 from .parsejpkheader import parseJPKheader, parseJPKsegmentheader
+from .loadjpkimg import loadJPKimg
 
 def loadJPKfile(filepath, UFF, filesuffix):
     """
@@ -41,6 +42,8 @@ def loadJPKfile(filepath, UFF, filesuffix):
             grouped_paths = [list(items) for _, items in groupby(paths, key=group_keyf)]
             # Sort the path groups based on index
             grouped_paths = sorted(grouped_paths, key=list_keyf)
+            # Load image data if scan
+            UFF.imagedata = loadJPKimg(UFF)
 
         else:
             # If not a map, all paths correspond to the same curve.

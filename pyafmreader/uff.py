@@ -19,6 +19,7 @@ class UFF:
                     filemetadata (dict): Dictionary containing the file metadata.
                     isFV (bool): Flag indicating if the file is a Force Volume or not.
                     piezoimg (np.array): 2D np.array containing the piezo image of the file.
+                    imagedata (dict): dictionary containing additional image data.
             
             Methods:
                     getcurve
@@ -34,6 +35,9 @@ class UFF:
         # FV Specific Atribtues
         self.isFV=None
         self.piezoimg=None
+        # In files like JPK scans you may
+        # have additional image data.
+        self.imagedata=None
     
     def _loadcurve(self, curveidx, afmfile, file_type):
         """
