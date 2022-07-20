@@ -5,7 +5,7 @@ from fasterzip import ZipFile
 
 from .constants import *
 from .jpk.loadjpkcurve import loadJPKcurve
-from .jpk.loadjpkimg import loadJPKimg
+from .jpk.loadjpkimg import computeJPKPiezoImg
 from .nanosc.loadnanosccurve import loadNANOSCcurve
 from .nanosc.loadnanoscimg import loadNANOSCimg
 from .load_uff import loadUFFcurve
@@ -110,7 +110,7 @@ class UFF:
         """
         file_type = self.filemetadata['file_type']
         if file_type in jpkfiles:
-            self.piezoimg = loadJPKimg(self)
+            self.piezoimg = computeJPKPiezoImg(self)
         elif file_type in nanoscfiles:
             self.piezoimg = loadNANOSCimg(self.filemetadata)
         return self.piezoimg
