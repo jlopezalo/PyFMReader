@@ -59,6 +59,7 @@ def loadJPKimg(UFF):
             bytes_io = io.BytesIO(filecontents)
             with tifffile.TiffFile(bytes_io) as tif:
                 data = {}
+                channel_name = None
                 for page in tif.pages[1:]:
                     tif_tags = [tag.value for tag in page.tags.values()]
                     for tag in tif_tags:
