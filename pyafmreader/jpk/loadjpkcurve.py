@@ -22,7 +22,7 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
             Returns:
                     force_curve (utils.forcecurve.ForceCurve): ForceCurve object containing the loaded data.
     """
-    file_id = file_metadata['file_id']
+    file_id = file_metadata['Entry_filename']
     curve_properties = file_metadata['curve_properties']
 
     force_curve = ForceCurve(curve_index, file_id)
