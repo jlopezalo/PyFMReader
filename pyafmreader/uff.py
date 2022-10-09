@@ -85,8 +85,8 @@ class UFF:
         file_type = self.filemetadata['file_type']
         if file_type in jpkfiles:
             with open(self.filemetadata['file_path'], 'rb') as file:
-                with ZipFile(file) as afmfile:
-                    loaded_curves = [self._loadcurve(curveidx, afmfile, file_type) for curveidx in curveidices]
+                afmfile = ZipFile(file)
+                loaded_curves = [self._loadcurve(curveidx, afmfile, file_type) for curveidx in curveidices]
             return loaded_curves
         elif file_type in nanoscfiles:
             return [self._loadcurve(curveidx, None, file_type) for curveidx in curveidices]
