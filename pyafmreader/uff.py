@@ -82,7 +82,7 @@ class UFF:
                 Returns:
                         list of FC (utils.forcecurve.ForceCurve): ForceCurve object containing the force curve data.
         """
-        return[self.getcurve(self, curveidx) for curveidx in curveidices]
+        return[self.getcurve(curveidx) for curveidx in curveidices]
 
     def getcurve(self, curveidx):
         """
