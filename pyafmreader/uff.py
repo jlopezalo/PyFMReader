@@ -66,23 +66,6 @@ class UFF:
         elif file_type in ufffiles:
             FC = loadUFFcurve(self.filemetadata)
         return FC
-    
-    def getmultiplecurves(self, curveidices):
-        """
-        Function used to load a multiple curves from a file.
-        
-        Supported formats:
-            - JPK --> .jpk-force, .jpk-force-map, .jpk-qi-data
-            - NANOSCOPE --> .spm, .pfc
-            - UFF --> .uff
-
-                Parameters:
-                        list of curveidx (int): Index of curve to load.
-                
-                Returns:
-                        list of FC (utils.forcecurve.ForceCurve): ForceCurve object containing the force curve data.
-        """
-        return[self.getcurve(curveidx) for curveidx in curveidices]
 
     def getcurve(self, curveidx):
         """
