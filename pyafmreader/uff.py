@@ -82,19 +82,7 @@ class UFF:
                 Returns:
                         list of FC (utils.forcecurve.ForceCurve): ForceCurve object containing the force curve data.
         """
-        file_type = self.filemetadata['file_type']
-        if file_type in jpkfiles:
-            with open(self.filemetadata['file_path'], 'rb') as file:
-                loaded_curves = []
-                for curveidx in curveidices:
-                    afmfile = ZipFile(file)
-                    loaded_curves.append(self._loadcurve(curveidx, afmfile, file_type))
-            return loaded_curves
-        elif file_type in nanoscfiles:
-            return [self._loadcurve(curveidx, None, file_type) for curveidx in curveidices]
-        elif file_type in ufffiles:
-            # Have to figure out how to save a UFF map...
-            return self._loadcurve(None, None, file_type)
+        return[self.getcurve(self, curveidx) for curveidx in curveidices]
 
     def getcurve(self, curveidx):
         """
