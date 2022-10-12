@@ -43,9 +43,9 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
 
         for path in segment_group:
             data_type = path.split("/")[-1].split(".")[0]
-            print(data_type)
 
             if data_type not in ['', 'segment-header']:
+                conversion_factors = file_metadata["channel_properties"]["data_type"]
                 if 'integer' in conversion_factors["encoder_type"]:
                     divider = 4
                     format_id = 'i'
