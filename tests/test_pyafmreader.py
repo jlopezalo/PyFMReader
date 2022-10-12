@@ -10,6 +10,7 @@ class TestPyafmreader(unittest.TestCase):
     def setUp(self):
         # Declare paths to test files
         JPK_SINGLE_CURVE_PATH = 'tests/testfiles/force-save-2020.12.04-14.39.51.983.jpk-force'
+        JPK_SINGLE_CURVE_PATH = '/Users/javierlopez/Desktop/CellHesion_data_set/force-save-2022.08.02-16.02.01.977.jpk-force'
         JPK_FV_PATH = 'tests/testfiles/map-data-2021.11.05-17.37.44.432.jpk-force-map'
         JPK_QI_PATH = None
         JPK_THERMAL_PATH = 'tests/testfiles/PFQNM-H2O-thermal-noise-data_vDeflection_2022.01.12-11.37.51.tnd'
