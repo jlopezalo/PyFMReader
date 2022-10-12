@@ -141,7 +141,7 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
                              the default values of dlection sentivity = {multiplier_default} and K = {multiplier_default} have been assigned!")
 
         
-        elif channel_name in ("capacitiveSensorHeight", "measuredHeight", "height"):
+        elif channel_name in ("capacitiveSensorHeight", "measuredHeight", "height", "cellhesion-height", "strainGaugeHeight"):
             properties["encoder_offet_key"] = float(shared_data_properties.get(pre + ".encoder.scaling.offset", offset_default))
             properties["encoder_multiplier_key"] = float(shared_data_properties.get(pre + ".encoder.scaling.multiplier", scaling_factor))
             
