@@ -84,10 +84,10 @@ def loadJPKfile(filepath, UFF, filesuffix):
         found_vDeflection = "vDeflection"  in channels
 
         # Prioritize data obtained from the height sensor.
-        if "cellhesion-height" in channels: height_channel_key = "cellhesion-height"
-        elif "measuredHeight" in channels: height_channel_key = "measuredHeight"
+        if "measuredHeight" in channels: height_channel_key = "measuredHeight"
         elif "capacitiveSensorHeight" in channels: height_channel_key = "capacitiveSensorHeight"
         elif "height" in channels: height_channel_key = "height"
+        elif "cellhesion-height" in channels: height_channel_key = "cellhesion-height"
         else: height_channel_key = None
 
         UFF.filemetadata['found_vDeflection'] = found_vDeflection

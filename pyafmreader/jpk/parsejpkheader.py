@@ -104,6 +104,7 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
         channel_name = shared_data_properties.get(pre + ".channel.name")
 
         if channel_name in ("vDeflection", "hDeflection"):
+            properties["encoder_type"] = shared_data_properties.get(pre + ".encoder.type")
             properties["encoder_offet_key"] = float(shared_data_properties.get(pre + ".encoder.scaling.offset", offset_default))
             properties["encoder_multiplier_key"] = float(shared_data_properties.get(pre + ".encoder.scaling.multiplier", multiplier_default))
 

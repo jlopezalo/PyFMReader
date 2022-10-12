@@ -24,6 +24,9 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
     """
     file_id = file_metadata['Entry_filename']
     curve_properties = file_metadata['curve_properties']
+    height_channel_key = file_metadata['height_channel_key']
+    found_vDeflection = file_metadata['found_vDeflection']
+    conversion_factors = file_metadata["channel_properties"][height_channel_key]
 
     force_curve = ForceCurve(curve_index, file_id)
 
@@ -43,19 +46,21 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
             data_type = path.split("/")[-1].split(".")[0]
 
             if data_type not in ['', 'segment-header']:
-                nbr_points = afm_file.getinfo(bytes(path, 'utf-8')).get('m_uncomp_size') // 4
+                if 'integer' in conversion_factors["encoder_type"]:
+                    divider = 4
+                    format_id = 'i'
+                elif 'short' in conversion_factors["encoder_type"]:
+                    divider = 2
+                    format_id = 'h'
+                nbr_points = afm_file.getinfo(bytes(path, 'utf-8')).get('m_uncomp_size') // divider
                 with afm_file.read(bytes(path, 'utf-8')) as filecontents:
-                    data_raw = unpack(f">{str(nbr_points)}i", filecontents)
+                    data_raw = unpack(f">{str(nbr_points)}{format_id}", filecontents)
                     segment_raw_data[data_type] = data_raw
-        
-        height_channel_key = file_metadata['height_channel_key']
-        found_vDeflection = file_metadata['found_vDeflection']
 
         # Transform Height data
         if height_channel_key is not None:
             raw_data = segment_raw_data[height_channel_key]
             raw_data = np.asarray(raw_data)
-            conversion_factors = file_metadata["channel_properties"][height_channel_key]
             values = raw_data * conversion_factors["encoder_multiplier_key"] + conversion_factors["encoder_offet_key"]
 
             if conversion_factors["absolute_defined"]:
