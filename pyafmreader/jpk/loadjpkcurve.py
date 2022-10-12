@@ -28,6 +28,8 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
     found_vDeflection = file_metadata['found_vDeflection']
     conversion_factors = file_metadata["channel_properties"][height_channel_key]
 
+    print(conversion_factors)
+
     force_curve = ForceCurve(curve_index, file_id)
 
     curve_indices = file_metadata["Entry_tot_nb_curve"] - 1
