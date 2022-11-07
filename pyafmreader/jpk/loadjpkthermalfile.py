@@ -46,7 +46,9 @@ def loadJPKThermalFile(file_path):
             file_path, sep=data_sep, comment='#',
             names = ['Frequency', 'Vertical Deflection', 'average', 'fit-data'],
             engine='python')
-        # Compute amplitude in m^2/V
+        # Compute amplitude in m^2/Hz
+        # Data in vile is saved in V^2/Hz
+        # V^2/Hz * invOLS^2(m^2/V^2) = m^2/Hz
         ampl = (file_data['average'] * parameters['sensitivity'] ** 2).values
         # Get frequency values
         freq = (file_data['Frequency']).values
