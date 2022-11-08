@@ -49,9 +49,9 @@ def loadJPKThermalFile(file_path):
         # Compute amplitude in m^2/Hz
         # Data in vile is saved in V^2/Hz
         # V^2/Hz * invOLS^2(m^2/V^2) = m^2/Hz
-        ampl = (file_data['average'] * parameters['sensitivity'] ** 2).values
+        ampl = file_data['average'].values
         # Get frequency values
-        freq = (file_data['Frequency']).values
+        freq = file_data['Frequency'].values
         # Get fit values in  m^2/V
         # There may be no fit data in the file,
         # if that is the case python will raise
