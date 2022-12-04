@@ -36,9 +36,12 @@ def loadfile(filepath):
     """
     filesuffix = os.path.splitext(filepath)[-1]
 
+    print(filesuffix)
+
     uffobj = UFF()
 
     if filesuffix[1:].isdigit() or filesuffix in nanoscfiles:
+        print('This runs')
         return loadNANOSCfile(filepath, uffobj)
 
     elif filesuffix in jpkfiles:
