@@ -17,7 +17,7 @@ def loadfile(filepath):
     Supported formats:
         - JPK --> .jpk-force, .jpk-force-map, .jpk-qi-data
         - JPK Thermal --> .tnd
-        - NANOSCOPE --> .spm, .pfc
+        - NANOSCOPE --> .spm, .pfc, .001
         - UFF --> .uff
 
             Parameters:
@@ -38,11 +38,11 @@ def loadfile(filepath):
 
     uffobj = UFF()
 
-    if filesuffix in jpkfiles:
-        return loadJPKfile(filepath, uffobj, filesuffix)
-    
-    elif filesuffix in nanoscfiles:
+    if filesuffix.isdigit() or filesuffix in nanoscfiles:
         return loadNANOSCfile(filepath, uffobj)
+
+    elif filesuffix in jpkfiles:
+        return loadJPKfile(filepath, uffobj, filesuffix)
     
     elif filesuffix in ufffiles:
         return loadUFFtxt(filepath, uffobj)
