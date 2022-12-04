@@ -38,7 +38,7 @@ def loadfile(filepath):
 
     uffobj = UFF()
 
-    if filesuffix.isdigit() or filesuffix in nanoscfiles:
+    if filesuffix[1:].isdigit() or filesuffix in nanoscfiles:
         return loadNANOSCfile(filepath, uffobj)
 
     elif filesuffix in jpkfiles:
