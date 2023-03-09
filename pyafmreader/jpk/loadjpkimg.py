@@ -85,8 +85,8 @@ def loadJPKimg(UFF):
                     imagedata (dict): dictionary containing all the channels data.
     """
     file_type = UFF.filemetadata['file_type']
-    if file_type == ".jpk-force-map": path = 'data-image.force'
-    elif file_type == ".jpk-qi-data": path = 'data-image.jpk-qi-image'
+    if file_type == "jpk-force-map": path = 'data-image.force'
+    elif file_type == "jpk-qi-data": path = 'data-image.jpk-qi-image'
     else: return
     with open(UFF.filemetadata['file_path'], 'rb') as file:
         afm_file = ZipFile(file)
@@ -127,7 +127,7 @@ def computeJPKPiezoImg(UFF):
     """
     file_type = UFF.filemetadata['file_type']
     height_channel_key = UFF.filemetadata["height_channel_key"]
-    if file_type in (".jpk-force-map", ".jpk-qi-data"):
+    if file_type in ("jpk-force-map", "jpk-qi-data"):
         # Get height key
         # Get the last value of the first approach segment.
         with open(UFF.filemetadata['file_path'], 'rb') as file:
@@ -139,7 +139,7 @@ def computeJPKPiezoImg(UFF):
         piezoimg = tempiezoimg - np.min(tempiezoimg)
         # Reshape piezo image
         piezoimg = piezoimg.reshape((UFF.filemetadata["num_x_pixels"], UFF.filemetadata["num_y_pixels"]))
-        if file_type == ".jpk-force-map":
+        if file_type == "jpk-force-map":
             # Flip odd rows to follow raster scan direction properly.
             #   0  1  2       0  1  2
             #   3  4  5  -->  5  4  3

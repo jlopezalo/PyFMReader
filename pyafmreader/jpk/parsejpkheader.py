@@ -41,15 +41,15 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
         # If the file has been renamed, then assign the file id to be the file name.
         file_metadata["file_id"] = file_metadata["file_name"]
 
-    if file_metadata["file_type"] == ".jpk-force-map":
+    if file_metadata["file_type"] == "jpk-force-map":
         prefix = "force-scan-map"
         pre_header = ".settings"
         file_metadata['force_volume'] = 1
-    elif file_metadata["file_type"] == ".jpk-qi-data":
+    elif file_metadata["file_type"] == "jpk-qi-data":
         prefix = "quantitative-imaging-map"
         file_metadata['force_volume'] = 1
         pre_header = ".settings"
-    elif file_metadata["file_type"] == ".jpk-force":
+    elif file_metadata["file_type"] == "jpk-force":
         prefix = "force-scan-series"
         pre_header = ".header"
         file_metadata['force_volume'] = 0
@@ -222,7 +222,7 @@ def parseJPKsegmentheader(curve_properties, curve_index, file_type, segment_head
         segment_metadata["baseline_measured"] = False
     segment_metadata["baseline"] = float(segment_header.get("force-segment-header.baseline.baseline", offset_default))
 
-    if file_type == ".jpk-force":
+    if file_type == "jpk-force":
         segment_metadata["approach_id"] = segment_header.get("force-segment-header.approach-id")
         segment_metadata["style"] = segment_header.get("force-segment-header.settings.style")
 
@@ -237,7 +237,7 @@ def parseJPKsegmentheader(curve_properties, curve_index, file_type, segment_head
         segment_metadata["z_start"] = float(segment_header.get("force-segment-header.settings.segment-settings.z-start", offset_default)) * scaling_factor
         segment_metadata["z_end"] = float(segment_header.get("force-segment-header.settings.segment-settings.z-end", offset_default)) * scaling_factor
     
-    elif file_type in (".jpk-force-map", ".jpk-qi-data"):
+    elif file_type in ("jpk-force-map", "jpk-qi-data"):
         prefix = f"force-segment-header-info.{segment_id}"
         segment_metadata["approach_id"] = shared_data_properties.get(f"{prefix}.approach-id")
         segment_metadata["style"] = shared_data_properties.get(f"{prefix}.settings.style")
