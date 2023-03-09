@@ -1,7 +1,7 @@
 # File containing constants used in the package.
 
 # File extensions of files supported by this library
-jpkfiles = ('.jpk-force', '.jpk-force-map', '.jpk-qi-data', '.jpk-force.zip', '.jpk-force-map.zip', '.jpk-qi-data.zip')     # As in 18-07-2022
+jpkfiles = ('.jpk-force', '.jpk-force-map', '.jpk-qi-data')     # As in 18-07-2022
 nanoscfiles = ('.spm', '.pfc')                                  # As in 18-07-2022
 ufffiles = ('.uff')                                             # As in 18-07-2022
 jpkthermalfiles = ('.tnd')                                      # As in 18-07-2022

@@ -34,7 +34,11 @@ def loadfile(filepath):
 
 
     """
-    filesuffix = os.path.splitext(filepath)[-1]
+    split_path = filepath.split(os.extsep)
+    if os.name == 'nt' and split_path[-1] == '.zip':
+        filesuffix = split_path[-2]
+    else:
+        filesuffix = split_path[-2]
 
     uffobj = UFF()
 

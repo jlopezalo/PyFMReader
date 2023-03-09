@@ -26,7 +26,11 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     file_metadata["file_path"] = filepath
     file_metadata["Entry_filename"] = os.path.basename(filepath)
     file_metadata["file_size_bytes"] = os.path.getsize(filepath)
-    file_metadata["file_type"] = filepath.split(os.extsep, 1)[-1]
+    split_path = filepath.split(os.extsep)
+    if os.name == 'nt':
+        file_metadata["file_type"] = split_path[-2]
+    else:
+        file_metadata["file_type"] = split_path[-1]
     file_metadata['UFF_code'] = UFF_code
     file_metadata['Entry_UFF_version'] = UFF_version
  
