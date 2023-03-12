@@ -1,7 +1,7 @@
 # File containing the UFF class.
 # Used to store data and metadata.
 
-from fasterzip import ZipFile
+from zipfile import ZipFile
 
 from .constants import *
 from .jpk.loadjpkcurve import loadJPKcurve

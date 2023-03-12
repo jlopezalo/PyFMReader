@@ -1,7 +1,9 @@
 from pyafmreader.pyafmreader import loadfile
 
-path = r'D:/Force curves dataset -FS on THP1 cells/Exp1/Cell1\\force-save-2021.01.22-17.57.23.079.jpk-force.zip'
+path = r'C:\Users\javier.lopez\Documents\Datasets\191209_Microrheology_THP1_PLL_mltcbioE\force-save-2019.12.09-15.20.07.822.jpk-force.zip'
 
 file = loadfile(path)
+
+file.getcurve(0)
 
 print(file)

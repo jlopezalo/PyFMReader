@@ -1,6 +1,6 @@
 import os
 from itertools import groupby
-from fasterzip import ZipFile
+from zipfile import ZipFile
 from .parsejpkheader import parseJPKheader, parseJPKsegmentheader
 from .loadjpkimg import loadJPKimg
 
@@ -19,18 +19,18 @@ def loadJPKfile(filepath, UFF, filesuffix):
     with open(filepath, 'rb') as file:
         afm_file = ZipFile(file)
         # Get global metadata stored in the files: header.properties and shared-data/header.properties
-        with afm_file.read(b'header.properties') as headercontents:
-            header_properties_raw = bytes(headercontents).decode().splitlines()
-            header_properties = {item.split("=")[0]:item.split("=")[1] for item in header_properties_raw if not item.startswith("#")}
+        headercontents = afm_file.read('header.properties')
+        header_properties_raw = bytes(headercontents).decode().splitlines()
+        header_properties = {item.split("=")[0]:item.split("=")[1] for item in header_properties_raw if not item.startswith("#")}
         
-        with afm_file.read(b'shared-data/header.properties') as sharedheadercontents:
-            shared_data_properties_raw = bytes(sharedheadercontents).decode().splitlines()
-            UFF._sharedataprops = {item.split("=")[0]:item.split("=")[1] for item in shared_data_properties_raw if not item.startswith("#")}
+        sharedheadercontents = afm_file.read('shared-data/header.properties')
+        shared_data_properties_raw = bytes(sharedheadercontents).decode().splitlines()
+        UFF._sharedataprops = {item.split("=")[0]:item.split("=")[1] for item in shared_data_properties_raw if not item.startswith("#")}
 
         UFF.filemetadata = parseJPKheader(filepath, header_properties, UFF._sharedataprops)
         UFF.isFV = bool(UFF.filemetadata['force_volume'])
 
-        paths = [name.decode() for name in afm_file.namelist() if "segments" in name.decode()]
+        paths = [name for name in afm_file.namelist() if "segments" in name]
 
         if filesuffix in (".jpk-force-map", ".jpk-qi-data"):
             # Function to group paths by index
@@ -72,11 +72,11 @@ def loadJPKfile(filepath, UFF, filesuffix):
                 data_type = path.split("/")[-1].split(".")[0]
 
                 if data_type == 'segment-header':
-                    with afm_file.read(bytes(path, 'utf-8')) as metadatacontents:
-                        metadata_raw = bytes(metadatacontents).decode().splitlines()
-                        # segment_metadata = jprops.load_properties(metadata_raw)
-                        segment_metadata = {item.split("=")[0]:item.split("=")[1] for item in metadata_raw if not item.startswith("#")}
-                        curve_properties = parseJPKsegmentheader(curve_properties, curve_id, filesuffix, segment_metadata, UFF._sharedataprops, segment_id)
+                    metadatacontents = afm_file.read(path)
+                    metadata_raw = bytes(metadatacontents).decode().splitlines()
+                    # segment_metadata = jprops.load_properties(metadata_raw)
+                    segment_metadata = {item.split("=")[0]:item.split("=")[1] for item in metadata_raw if not item.startswith("#")}
+                    curve_properties = parseJPKsegmentheader(curve_properties, curve_id, filesuffix, segment_metadata, UFF._sharedataprops, segment_id)
         
         channels = curve_properties['0']['0']['channels']
 

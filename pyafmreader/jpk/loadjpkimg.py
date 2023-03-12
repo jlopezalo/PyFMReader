@@ -4,7 +4,7 @@ import contextlib
 import io
 import numpy as np
 import tifffile
-from fasterzip import ZipFile
+from zipfile import ZipFile
 
 # As for 20/07/2022 these are the accepted channels for
 # JPK files. This routine has a lot of hard coded values

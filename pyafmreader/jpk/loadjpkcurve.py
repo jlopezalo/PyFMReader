@@ -53,10 +53,10 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
                 elif 'short' in conversion_factors["encoder_type"]:
                     divider = 2
                     format_id = 'h'
-                nbr_points = afm_file.getinfo(bytes(path, 'utf-8')).get('m_uncomp_size') // divider
-                with afm_file.read(bytes(path, 'utf-8')) as filecontents:
-                    data_raw = unpack(f">{str(nbr_points)}{format_id}", filecontents)
-                    segment_raw_data[data_type] = data_raw
+                nbr_points = afm_file.getinfo(path).file_size // divider
+                filecontents = afm_file.read(path)
+                data_raw = unpack(f">{str(nbr_points)}{format_id}", filecontents)
+                segment_raw_data[data_type] = data_raw
         
         height_channel_key = file_metadata['height_channel_key']
         found_vDeflection = file_metadata['found_vDeflection']
