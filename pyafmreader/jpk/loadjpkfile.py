@@ -32,7 +32,7 @@ def loadJPKfile(filepath, UFF, filesuffix):
 
         paths = [name for name in afm_file.namelist() if "segments" in name]
 
-        if filesuffix in (".jpk-force-map", ".jpk-qi-data"):
+        if filesuffix in ("jpk-force-map", "jpk-qi-data"):
             # Function to group paths by index
             group_keyf = lambda text: int(text.split("/")[1])
             # Function to sort lists of paths by the index
