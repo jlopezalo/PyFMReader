@@ -1,6 +1,6 @@
 from pyafmreader.pyafmreader import loadfile
 
-path = r'C:\Users\javier.lopez\Documents\Datasets\191209_Microrheology_THP1_PLL_mltcbioE\force-save-2019.12.09-15.20.07.822.jpk-force.zip'
+path = r'C:\Users\javier.lopez\OneDrive - Optics11 BV\Desktop\map-data-2021.03.21-14.22.37.755.jpk-force-map'
 
 file = loadfile(path)
 

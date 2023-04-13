@@ -38,7 +38,9 @@ def loadfile(filepath):
     if os.name == 'nt' and split_path[-1] == '.zip':
         filesuffix = split_path[-2]
     else:
-        filesuffix = split_path[-2]
+        filesuffix = split_path[-1]
+    
+    print(filesuffix)
 
     uffobj = UFF()
 

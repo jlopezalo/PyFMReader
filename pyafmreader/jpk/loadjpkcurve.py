@@ -58,6 +58,10 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
                 data_raw = unpack(f">{str(nbr_points)}{format_id}", filecontents)
                 segment_raw_data[data_type] = data_raw
         
+        # If no data found, continue to next segment.
+        if len(segment_raw_data) == 0:
+            continue
+
         height_channel_key = file_metadata['height_channel_key']
         found_vDeflection = file_metadata['found_vDeflection']
 
@@ -91,6 +95,7 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
 
         else:
             print("[!] No valid vDeflection channel found!")
+        
         segment_type = curve_properties[str(curve_index)][segment_id]["style"]
         segment_duration = curve_properties[str(curve_index)][segment_id]["duration"]
         segment_num_points = curve_properties[str(curve_index)][segment_id]["num_points"]
@@ -114,7 +119,6 @@ def loadJPKcurve(paths, afm_file, curve_index, file_metadata):
         segment.velocity = segment.segment_metadata["ramp_speed"]
         segment.sampling_rate = segment.nb_point / segment.segment_metadata["duration"]
         segment.z_displacement = segment.segment_metadata["ramp_size"]
-
 
         if segment.segment_type == "Approach":
             force_curve.extend_segments.append((int(segment.segment_id), segment))

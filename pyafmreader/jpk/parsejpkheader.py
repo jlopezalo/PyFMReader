@@ -8,7 +8,7 @@ import re
 
 from ..constants import *
 
-def parseJPKheader(filepath, header_properties, shared_data_properties):
+def parseJPKheader(filepath, header_properties, shared_data_properties, filesuffix):
     """
     Function used to load the metadata of a JPK file.
 
@@ -26,11 +26,7 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     file_metadata["file_path"] = filepath
     file_metadata["Entry_filename"] = os.path.basename(filepath)
     file_metadata["file_size_bytes"] = os.path.getsize(filepath)
-    split_path = filepath.split(os.extsep)
-    if os.name == 'nt':
-        file_metadata["file_type"] = split_path[-2]
-    else:
-        file_metadata["file_type"] = split_path[-1]
+    file_metadata["file_type"] = filesuffix
     file_metadata['UFF_code'] = UFF_code
     file_metadata['Entry_UFF_version'] = UFF_version
  
@@ -76,12 +72,12 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     file_metadata["Entry_tot_nb_curve"] = int(header_properties.get(prefix + ".indexes.max", offset_default)) + 1
     file_metadata["extend_pause_duration"] = float(header_properties.get(prefix + ".settings.force-settings.extended-pause-time", offset_default))
 
-    if file_metadata["file_type"] in (".jpk-force"):
+    if file_metadata["file_type"] in ("jpk-force"):
         file_metadata["relative_z_start"] = float(header_properties.get("relative-z-start", offset_default)) * scaling_factor
         file_metadata["relative_z_end"] = float(header_properties.get("relative-z-end", offset_default)) * scaling_factor
         file_metadata["relative_ramp_size"] = file_metadata["relative_z_end"] - file_metadata["relative_z_start"] # This can be 0
     
-    elif file_metadata["file_type"] in (".jpk-qi-data"):
+    elif file_metadata["file_type"] in ("jpk-qi-data"):
         file_metadata["relative_z_start"] = float(header_properties.get("settings.force-settings.extend.z-start", offset_default)) * scaling_factor
         file_metadata["relative_z_end"] = float(header_properties.get("settings.force-settings.extend.z-end", offset_default)) * scaling_factor
         file_metadata["relative_ramp_size"] = file_metadata["relative_z_end"] - file_metadata["relative_z_start"] # This can be 0
@@ -181,7 +177,7 @@ def parseJPKheader(filepath, header_properties, shared_data_properties):
     file_metadata["channel_properties"] = channel_properties
     
     # Get number of segments saved
-    if file_metadata["file_type"] == ".jpk-force":
+    if file_metadata["file_type"] == "jpk-force":
         file_metadata["Recording_number_segment"] = int(header_properties.get(f"force-scan-series.force-segments.count", num_segments_default))
     else:
         file_metadata["Recording_number_segment"] = int(shared_data_properties.get(f"force-segment-header-infos.count", num_segments_default))
