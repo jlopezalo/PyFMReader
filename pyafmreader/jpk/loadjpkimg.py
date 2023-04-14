@@ -90,29 +90,28 @@ def loadJPKimg(UFF):
     else: return
     with open(UFF.filemetadata['file_path'], 'rb') as file:
         afm_file = ZipFile(file)
-        with afm_file.read(bytes(path, 'utf-8')) as filecontents:
-            bytes_io = io.BytesIO(filecontents)
-            with tifffile.TiffFile(bytes_io) as tif:
-                data = {}
-                channel_name = None
-                for page in tif.pages[1:]:
-                    tif_tags = [tag.value for tag in page.tags.values()]
-                    # print(tif_tags)
-                    for tag in tif_tags:
-                        # print(tag)
-                        with contextlib.suppress(TypeError):
-                            if 'algorithm.object-name.base-object-name.fancy-name' in tag:
-                                channel_name = tag.split('\n')[0].split(':')[1].replace(' ', '')
-                    if channel_name not in  valid_channels:
-                        continue
-                    # Try to fetch the multiplier and offset.
-                    mult, offset = get_channel_conversion_factors(tif_tags, channel_name)
-                    # Check if the multiplier and the offset have been extracted properly.
-                    # In the test files it works correctly. But weird things may happen with
-                    # other files.
-                    if isinstance(mult, float) and isinstance(offset, float):
-                        image = page.asarray()
-                        data[channel_name] = image.astype(np.int64) * mult + offset
+        bytes_io = io.BytesIO(afm_file.read(path))
+        with tifffile.TiffFile(bytes_io) as tif:
+            data = {}
+            channel_name = None
+            for page in tif.pages[1:]:
+                tif_tags = [tag.value for tag in page.tags.values()]
+                # print(tif_tags)
+                for tag in tif_tags:
+                    # print(tag)
+                    with contextlib.suppress(TypeError):
+                        if 'algorithm.object-name.base-object-name.fancy-name' in tag:
+                            channel_name = tag.split('\n')[0].split(':')[1].replace(' ', '')
+                if channel_name not in  valid_channels:
+                    continue
+                # Try to fetch the multiplier and offset.
+                mult, offset = get_channel_conversion_factors(tif_tags, channel_name)
+                # Check if the multiplier and the offset have been extracted properly.
+                # In the test files it works correctly. But weird things may happen with
+                # other files.
+                if isinstance(mult, float) and isinstance(offset, float):
+                    image = page.asarray()
+                    data[channel_name] = image.astype(np.int64) * mult + offset
     return data
 
 def computeJPKPiezoImg(UFF):
