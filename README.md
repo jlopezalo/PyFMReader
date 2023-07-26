@@ -1,4 +1,4 @@
-# Pyafmreader V.0.1.1
+# Pyfmreader V.0.1.0
 
 In development, not fully stable.
 If you find any issues please open an issue at:
@@ -9,12 +9,12 @@ jla.lopez.18@gmail.com
 
 ## Installation
 ```
-pip install pyafmreader
+pip install pyfmreader
 ```
 
 ## Usage
 ```
-from pyafmreader import loadfile
+from pyfmreader import loadfile
 
 NANOSC_FV_PATH = 'tests/testfiles/20200903_Egel2.0_00023.spm'
 

@@ -1,3 +1,11 @@
+[project]
+name = "pyfmreader"
+version = "0.1.0"
+
 [build-system]
-requires = ['setuptools', 'numpy', 'pandas', 'tifffile']
-build-backend = 'setuptools.build_meta'
+requires = ["setuptools>=61.0", "numpy", "pandas", "tifffile"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+namespaces = true
+where = ["pyfmreader"]

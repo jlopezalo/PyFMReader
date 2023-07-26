@@ -37,7 +37,7 @@ def loadfile(filepath):
     split_path = filepath.split(os.extsep)
     # Depending on the configuration of the OS, JPK files have the following
     # extension: .jpk-force.zip
-    if split_path[-1] == '.zip': filesuffix = split_path[-2]
+    if split_path[-1] == 'zip': filesuffix = split_path[-2]
     else: filesuffix = split_path[-1]
 
     uffobj = UFF()
@@ -53,3 +53,5 @@ def loadfile(filepath):
     
     elif filesuffix in jpkthermalfiles:
         return loadJPKThermalFile(filepath)
+    else:
+        Exception(f"Can not load file: {filepath}")

@@ -3,7 +3,7 @@
 # NOT FINISHED!!!
 
 import unittest
-from pyafmreader import loadfile
+from pyfmreader import loadfile
 
 class TestPyafmreader(unittest.TestCase):
 

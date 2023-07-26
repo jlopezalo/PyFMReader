@@ -152,7 +152,7 @@ def computeJPKPiezoImg(UFF):
     return piezoimg
 
 if __name__ == '__main__':
-    from pyafmreader import loadfile
+    from pyfmreader import loadfile
     # JPK_FORCEMAP_PATH = '/Users/javierlopez/Documents/pyafmreader/tests/testfiles/map-data-2021.11.05-17.37.44.432.jpk-force-map'
     JPK_FORCEMAP_PATH = '/Users/javierlopez/Documents/pyafmreader/tests/testfiles/qi-data-2022.04.01-16.51.44.168.jpk-qi-data'
     UFF = loadfile(JPK_FORCEMAP_PATH)
