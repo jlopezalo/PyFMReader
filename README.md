@@ -1,4 +1,4 @@
-# Pyfmreader V.0.1.0
+# Pyfmreader
 
 In development, not fully stable.
 If you find any issues please open an issue at:
