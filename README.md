@@ -1,13 +1,16 @@
-# Pyafmreader V.x.x.x
+# Pyafmreader V.0.1.1
 
-In development, not stable.
+In development, not fully stable.
+If you find any issues please open an issue at:
+https://github.com/jlopezalo/PyFMReader/issues
 
 If you have any questions, contact:
-Javier.LOPEZ-ALONSO@ibl.cnrs.fr
+jla.lopez.18@gmail.com
 
 ## Installation
-1. Download repository
-2. Run python -m setup.py install
+```
+pip install pyafmreader
+```
 
 ## Usage
 ```

@@ -35,12 +35,10 @@ def loadfile(filepath):
 
     """
     split_path = filepath.split(os.extsep)
-    if os.name == 'nt' and split_path[-1] == '.zip':
-        filesuffix = split_path[-2]
-    else:
-        filesuffix = split_path[-1]
-    
-    print(filesuffix)
+    # Depending on the configuration of the OS, JPK files have the following
+    # extension: .jpk-force.zip
+    if split_path[-1] == '.zip': filesuffix = split_path[-2]
+    else: filesuffix = split_path[-1]
 
     uffobj = UFF()
 
