@@ -144,6 +144,12 @@ def computeJPKPiezoImg(UFF):
             #   3  4  5  -->  5  4  3
             #   6  7  8       6  7  8 
             piezoimg = np.asarray([row[::(-1)**i] for i, row in enumerate(piezoimg)])
+            # Changed by Yogesh and Felix to orient the image properly in the GUI
+            piezoimg_ys = np.zeros((N,N))
+            for i in range(N):
+                piezoimg_ys[:,i] = piezoimg[:,i]
+                if i%2==1:piezoimg_ys[:,i] = (np.flip(piezoimg[:,i]))
+            piezoimg=piezoimg_ys
         else:
             # In QI files it is not recessary to flip rows
             # due to how the acquisition mode works.
