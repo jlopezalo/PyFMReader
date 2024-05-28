@@ -38,10 +38,7 @@ def loadNANOSCcurve(idx, header):
         zstep_approach_nm = header['zstep_approach_nm']
         zstep_retract_nm = header['zstep_retract_nm']
         defl_sens_Vbybyte = header['defl_sens_Vbybyte']
-        PFC_freq = header['PFC_freq'] * 1000 # KHZ --> Hz
-        PFC_amp = header['PFC_amp']
-        PFC_nb_samppoints = header['PFC_nb_samppoints']
-        QNM_sync_dist = header['QNM_sync_dist']
+
         forward_duration = header['ramp_duration_forward']
         reverse_duration = header['ramp_duration_reverse']
 
@@ -68,7 +65,10 @@ def loadNANOSCcurve(idx, header):
         tempret[:] = unpack(f"<{str(nb_point_retract)}{fmt}", afmfile.read(FDC_bytes * nb_point_retract))
 
         if isPFC:
-
+            PFC_freq = header['PFC_freq'] * 1000 # KHZ --> Hz
+            PFC_amp = header['PFC_amp']
+            PFC_nb_samppoints = header['PFC_nb_samppoints']
+            QNM_sync_dist = header['QNM_sync_dist']
             f_samples = nb_point_approach
 
             if f_samples != PFC_nb_samppoints:
