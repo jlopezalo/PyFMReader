@@ -137,7 +137,7 @@ def computeJPKPiezoImg(UFF):
         # Rescale piezo image (0 - maxval)
         piezoimg = tempiezoimg - np.min(tempiezoimg)
         # Reshape piezo image
-        piezoimg = piezoimg.reshape((UFF.filemetadata["num_x_pixels"], UFF.filemetadata["num_y_pixels"]))
+        piezoimg = piezoimg.reshape((UFF.filemetadata["num_y_pixels"], UFF.filemetadata["num_x_pixels"]))
         if file_type == "jpk-force-map":
             # Flip odd rows to follow raster scan direction properly.
             #   0  1  2       0  1  2
